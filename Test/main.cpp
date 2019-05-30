@@ -85,6 +85,7 @@ public:
         fun();
         done = true;
         boost::mutex::scoped_lock a(m);
+        cout << __FUNCTION__ << " Finish sync call and notify all." << endl;
         cv.notify_all();
     }
 
