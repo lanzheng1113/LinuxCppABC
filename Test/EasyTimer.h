@@ -6,10 +6,9 @@
 #include "boost/make_shared.hpp"
 
 typedef boost::function<void() > timer_cbk;
-typedef boost::function<void()> task_fun_obj_type;
+typedef boost::function<void() > task_fun_obj_type;
 
-class EasyTimer : public boost::noncopyable
-{
+class EasyTimer : public boost::noncopyable {
 public:
 
     EasyTimer() {
@@ -69,12 +68,15 @@ private:
     task_fun_obj_type PopTimerTask(int& id) {
         boost::recursive_mutex::scoped_lock l(m_mu);
         boost::posix_time::ptime now = boost::posix_time::microsec_clock::local_time();
+        task_fun_obj_type ret;
         for (auto i : m_Timers) {
             if (now > i.next_triggle_time) {
                 id = i.id;
-                return i.cbk;
+                ret = i.cbk;
+                break;
             }
         }
+        return ret;
     }
 protected:
 
