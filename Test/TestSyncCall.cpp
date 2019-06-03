@@ -15,6 +15,7 @@
 #include <boost/thread/condition_variable.hpp>
 #include <boost/thread/mutex.hpp>
 #include <deque>
+#include <exception>
 using namespace std;
 
 /**
@@ -39,7 +40,7 @@ public:
     void start() {
         if (m_thread)
             return;
-        m_thread = new boost::thread(&TestSyncCallClass::thread_function, this, 1234);
+        m_thread = boost::make_shared<boost::thread>(&TestSyncCallClass::thread_function, this, 1234);
     }
 
     sync_call_type get_from_local() {
@@ -89,6 +90,13 @@ public:
     }
 
     void sync_call(sync_call_type& fun) {
+        if (boost::this_thread::get_id() == m_thread->get_id()) {
+            // `SyncWait` never return if `SyncCall` is called in the work thread.
+            // Because the task posted is the next `task_fun_obj_type` object,
+            // and you are now try to wait a next executing work complete, but next one will not execute if the current task is not finished.
+            throw std::runtime_error("Can not post a sync operation in the thread itself");
+            return;
+        }
         bool done = false;
         boost::condition_variable cv;
         boost::mutex m;
@@ -122,7 +130,7 @@ public:
             sync_call(f);
         }
     }
-    boost::thread* m_thread;
+    boost::shared_ptr<boost::thread> m_thread;
     bool m_thread_quit;
     // Thread is running?
     bool m_thread_is_running;
