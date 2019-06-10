@@ -15,7 +15,11 @@
 #include "bdecode.hpp"
 #include <fstream>
 #include <iostream>
+#include <errno.h>
+#include <cstring>
+#include <sstream>
 using namespace std;
+
 /*
  * 
  */
@@ -25,14 +29,32 @@ int main(int argc, char** argv) {
             , error_code& ec, int* error_pos = 0, int depth_limit = 100
             , int token_limit = 1000000);
      */
-    ofstream ofs;
-    ofs.open("/home/duocore/configure/test.torrent");
-    if (!ofs.is_open())
-    {
+    ifstream ifs;
+    ifs.open("/home/duocore/configure/test.torrent");
+    if (!ifs.is_open()) {
+        //printf("%d, %s\n",errno,strerror(errno));
         perror("open test torrent file");
+        return errno;
     }
-//    libtorrent::bdecode_node bn;
-//    libtorrent::bdecode();
+
+    stringstream ss;
+    ss << ifs.rdbuf();
+    ifs.close();
+    string file_data = ss.str();
+    cout << "length of torrent file:" << file_data.length() << endl;
+
+    libtorrent::bdecode_node bn;
+    libtorrent::error_code ec;
+    int ret = libtorrent::bdecode(file_data.data(), file_data.data()+file_data.length(), bn, ec);
+    if (ret)
+    {
+        cout << "bcdcode failed with error code: " << ec.value() << " - " << ec.message() << endl;
+        return 0;
+    }
+    else
+    {
+        cout << libtorrent::print_entry(bn, false, 4) << endl;
+    }
     return 0;
 }
 
