@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * \note : �ⲿ�ִ���ժ��QuteCom���̣�����Ϊ��License˵�����ļ��еĴ����Ѿ��Ƴ����ֿ�ƽ̨�Ĵ��롣
+ * \note : 这部分代码摘自QuteCom工程，上面为其License说明。文件中的代码已经移除部分跨平台的代码。
  * 
  */
 
@@ -24,8 +24,8 @@
 #define OWNONCOPYABLE_H
 
 /**
- * \defgroup BASIC_CLASS �򵥻�����
- * \brief �򵥻�����,���粻�ɿ���������ӿ����
+ * \defgroup BASIC_CLASS 简单基础类
+ * \brief 简单基础类,例如不可拷贝，纯虚接口类等
  * \{
  */
 /**

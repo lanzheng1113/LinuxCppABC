@@ -1,5 +1,5 @@
 /**
-* \copyright (C)2016 ÍòÕ×Ìì¿Õ
+* \copyright (C)2016 ä¸‡å…†å¤©ç©º
 * \file Date.h 
 * \brief Represents a date.
 *
@@ -15,14 +15,14 @@
 #include <string>
 
 /**
- * \defgroup DATE_TIME ÈÕÆÚÊ±¼ä
- * \brief Ò»Ğ©ÈÕÆÚÊ±¼ä²Ù×÷µÄÀàºÍº¯Êı
+ * \defgroup DATE_TIME æ—¥æœŸæ—¶é—´
+ * \brief ä¸€äº›æ—¥æœŸæ—¶é—´æ“ä½œçš„ç±»å’Œå‡½æ•°
  * \{
  * \}
  */
 
 /**
- * \brief ÈÕÆÚÀà
+ * \brief æ—¥æœŸç±»
  * \ingroup DATE_TIME
  */
 class Date {

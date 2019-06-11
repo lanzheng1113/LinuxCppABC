@@ -1,7 +1,7 @@
 /**
  * \copyright (C) 2010 Mbdsys
  * \file StringEx.h
- * \brief ´ÓQuteComÖĞ°şÀëµÄ×Ö·û´®Ä£¿é
+ * \brief ä»QuteComä¸­å‰¥ç¦»çš„å­—ç¬¦ä¸²æ¨¡å—
  *
  * QuteCom, a voice over Internet phone
  * Copyright (C) 2010 Mbdsys
@@ -33,7 +33,7 @@
 
 class StringList;
 /**
- * \defgroup STRINGS ×Ö·û´®²Ù×÷
+ * \defgroup STRINGS å­—ç¬¦ä¸²æ“ä½œ
  * \{
  */
 
