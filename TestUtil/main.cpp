@@ -15,10 +15,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 #include "util/md5.h"
 #include "util/DateTime.h"
+#include "util/DateTimeSpan.h"
+#include "util/Logger.h"
 
 bool test_md5() {
     CMD5CheckSum ck;
@@ -63,7 +67,42 @@ bool test_date_time() {
     if (!(dt6 == dt5)) return false;
     if (DateTime::isValid(-1, 2, 4) || DateTime::isValid(2019, 2, 30)) return false;
     if (!DateTime::isLeapYear(2000) || DateTime::isLeapYear(2011)) return false;
+
+    DateTime dt7, dt8;
+    DateTime::fromString("2019-1-1 00:00:00", dt7);
+    DateTime::fromString("2018-1-1 01:01:01", dt8);
+    DateTimeSpan span = dt7 - dt8;
+    //cout << span.GetDays() << "-" << span.GetHours() << "-" << span.GetMinutes() << "-" << span.GetSeconds() << endl;
+    //cout << span.GetTotalHours() << "-" << span.GetTotalMinutes() << "-" << span.GetTotalSeconds() << endl;
+    if (!(span.GetDays() == 364 && span.GetHours() == 22 && span.GetMinutes() == 58 && span.GetSeconds() == 59
+            && span.GetTotalHours() == 8758 && span.GetTotalMinutes() == 525538 && span.GetTotalSeconds() == 31532339))
+        return false;
     return true;
+}
+
+bool test_logger() {
+    int i = 0;
+    Logger::getInstance()->setLogFileName("TestLogger.txt");
+    Logger::getInstance()->setIsPrintStdOutput(false);
+    LOG_DEBUG("Debug message %d", ++i);
+    LOG_INFO("Info message %d", ++i);
+    LOG_WARN("Warnning message %d", ++i);
+    LOG_ERROR("Error message %d", ++i);
+    Logger::getInstance()->flush();
+
+    ifstream ifs;
+    ifs.open("TestLogger.txt");
+    if (!ifs.is_open()) {
+        cout << "failed to open logger file with error code" << errno << endl;
+    }
+    stringstream ss;
+    ss << ifs.rdbuf();
+    string file_content = ss.str();
+    ifs.close();
+    return (file_content.find("Debug message 1") != string::npos
+            && file_content.find("Info message 2") != string::npos
+            && file_content.find("Warnning message 3") != string::npos
+            && file_content.find("Error message 4") != string::npos);
 }
 
 #define TEST(FUN) (cout << #FUN << "\t" << (FUN()?"OK":"FAILED") << endl)
@@ -71,6 +110,7 @@ bool test_date_time() {
 int main(int argc, char** argv) {
     TEST(test_md5);
     TEST(test_date_time);
+    TEST(test_logger);
     cout << "Press Enter key to continue..." << endl;
     fgetc(stdin);
     return 0;
