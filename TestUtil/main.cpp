@@ -37,6 +37,7 @@ bool test_md5() {
 
 #include "util/DateTime.h"
 #include "util/DateTimeSpan.h"
+
 bool test_date_time() {
     DateTime dt(30, 5, 2019, 18, 34, 18);
     if (dt.toString() != "2019-05-30 18:34:18") return false;
@@ -80,6 +81,7 @@ bool test_date_time() {
 }
 
 #include "util/Logger.h"
+
 bool test_logger() {
     int i = 0;
     Logger::getInstance()->setLogFileName("TestLogger.txt");
@@ -106,18 +108,86 @@ bool test_logger() {
 }
 
 #include "util/crypt.h"
-bool test_xor_crypt()
-{
+
+bool test_xor_crypt() {
     XorCrypter x(string(""));
     char msg[32] = "123456";
     char msg2[32] = "";
     char msg3[32] = "";
-    x.SimpleXor_Crype(msg2, msg, sizeof(msg));
-    x.SimpleXor_Crype(msg3, msg2, sizeof(msg3));
-    cout << msg3 << endl;
+    x.SimpleXor_Crype(msg2, msg, sizeof (msg));
+    x.SimpleXor_Crype(msg3, msg2, sizeof (msg3));
+    //cout << msg3 << endl;
     return 0 == strcmp(msg, msg3);
 }
 
+#include "util/Des.h"
+
+#ifndef _countof
+#define _countof(ARRAY) (sizeof(ARRAY)/sizeof(ARRAY[0]))
+#endif
+
+bool test_des() {
+    {
+        //
+        // Test CDes::EncryStrHex and CDes::DecryStrHex with string type paramters.
+        //
+        Util::CDes d;
+        string strs = "123123123";
+        string strd = "";
+        string key = "This is a long long long long long key.";
+        d.EncryStrHex(strs, strd, key);
+        string strd2 = "";
+        d.DecryStrHex(strd, strd2, key);
+        //cout << "orignal string: " << strs << "\nencrypted: " << strd << "\ndecrypted:" << strd2 << endl;
+        if (strs != strd2) {
+            return false;
+        }
+    }
+    {
+        //
+        // Test CDes::EncryStrHex and CDes::DecryStrHex with `char*` type paramters.
+        // void EncryStrHex(const char* chrInText, char* chrOutText, const char* chrKeyText);
+        //
+        Util::CDes d;
+        const char* pTexts = "123123123";
+        char out[128] = {0};
+        char out2[128] = {0};
+        const char*  key = "This is a long long long long long key.";
+        d.EncryStrHex(pTexts, out, key);
+        d.DecryStrHex(out, out2, key);
+        //cout << "orignal string: " << pTexts << "\nencrypted: " << out << "\ndecrypted:" << out2 << endl;
+        if(strcmp(pTexts, out2))
+            return false;
+    }
+    
+    {
+        //
+        // Test EncryStrHex with `unsigned char*` type parameters.
+        // void EncryStrHex(unsigned char *pchr_in, unsigned long llen, string &str_out, string str_key);
+        // void DecryStrHex(string str_in, unsigned char **pchr_out, unsigned long &llen, string str_key);
+        //
+        Util::CDes d;
+        unsigned char pSrc[4] = {0,1,2,3};
+ 
+        string key = "This is a long long long long long key.";
+        string out = "";
+        d.EncryStrHex(pSrc, 4, out, key);
+        //cout << out << endl;
+        unsigned long llen = 0;
+        unsigned char* px = NULL;
+        d.DecryStrHex(out, &px, llen, key);
+        //cout << "length = " << llen << endl;
+        //for (int i=0; i!= llen; i++)
+        //    cout << (int)px[i] << " ";
+        //cout << endl;
+        if (!(px && llen == 4 && *(int32_t*)px == 0x03020100))
+            return false;
+        if(px)
+            delete []px;
+    }
+
+    return true;
+}
 
 #define TEST(FUN) (cout << #FUN << "\t" << (FUN()?"OK":"FAILED") << endl)
 
@@ -126,6 +196,7 @@ int main(int argc, char** argv) {
     TEST(test_date_time);
     TEST(test_logger);
     TEST(test_xor_crypt);
+    TEST(test_des);
     cout << "Press Enter key to continue..." << endl;
     fgetc(stdin);
     return 0;

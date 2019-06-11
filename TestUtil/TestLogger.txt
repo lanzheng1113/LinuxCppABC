@@ -1,8 +1,8 @@
 Log file=TestLogger.txt
-Date=2019-06-11
-Time=23:11:18
+Date=2019-06-12
+Time=00:03:11
 
-(debug) 23:11:18 [Common] bool test_logger(): Debug message 1
-(info) 23:11:18 [Common] bool test_logger(): Info message 2
-(warn) 23:11:18 [Common] bool test_logger(): Warnning message 3
-(error) 23:11:18 [Common] bool test_logger(): Error message 4
+(debug) 00:03:11 [Common] bool test_logger(): Debug message 1
+(info) 00:03:11 [Common] bool test_logger(): Info message 2
+(warn) 00:03:11 [Common] bool test_logger(): Warnning message 3
+(error) 00:03:11 [Common] bool test_logger(): Error message 4
