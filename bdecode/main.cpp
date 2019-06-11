@@ -43,9 +43,9 @@ int main(int argc, char** argv) {
     string file_data = ss.str();
     cout << "length of torrent file:" << file_data.length() << endl;
 
-    libtorrent::bdecode_node bn;
-    libtorrent::error_code ec;
-    int ret = libtorrent::bdecode(file_data.data(), file_data.data()+file_data.length(), bn, ec);
+    bdecode_node bn;
+    error_code ec;
+    int ret = bdecode(file_data.data(), file_data.data()+file_data.length(), bn, ec);
     if (ret)
     {
         cout << "bcdcode failed with error code: " << ec.value() << " - " << ec.message() << endl;
@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
     }
     else
     {
-        cout << libtorrent::print_entry(bn, false, 4) << endl;
+        cout << print_entry(bn, false, 4) << endl;
     }
     return 0;
 }

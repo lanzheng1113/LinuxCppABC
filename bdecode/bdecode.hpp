@@ -91,7 +91,6 @@ example layout:
 
  */
 
-namespace libtorrent {
 
     TORRENT_EXPORT boost::system::error_category& bdecode_category();
 
@@ -123,19 +122,17 @@ namespace libtorrent {
         };
 
     }
-} // namespace libtorrent
+
 
 namespace boost {
     namespace system {
 
-        template<> struct is_error_code_enum<libtorrent::bdecode_errors::error_code_enum> {
+        template<> struct is_error_code_enum<bdecode_errors::error_code_enum> {
             static const bool value = true;
         };
 
     }
 }
-
-namespace libtorrent {
 
     typedef boost::system::error_code error_code;
     namespace detail {
@@ -227,8 +224,8 @@ namespace libtorrent {
     //
     // There are 5 different types of nodes, see type_t.
 
-    struct TORRENT_EXPORT bdecode_node {
-        TORRENT_EXPORT friend int bdecode(char const* start, char const* end, bdecode_node& ret
+    struct  bdecode_node {
+         friend int bdecode(char const* start, char const* end, bdecode_node& ret
                 , error_code& ec, int* error_pos, int depth_limit
                 , int token_limit);
 
@@ -403,7 +400,6 @@ namespace libtorrent {
             , error_code& ec, int* error_pos = 0, int depth_limit = 100
             , int token_limit = 1000000);
 
-}
 
 #endif // TORRENT_BDECODE_HPP
 

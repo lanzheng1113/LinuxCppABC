@@ -41,7 +41,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #define BOOST_SYSTEM_NOEXCEPT throw()
 #endif
 
-namespace libtorrent {
     using detail::bdecode_token;
 
     namespace {
@@ -1005,5 +1004,4 @@ done:
         }
         return ret;
     }
-}
 
