@@ -1,19 +1,19 @@
 /**
- * \copyright (C)2016 ÍòÕ×Ìì¿Õ
+ * \copyright (C)2016 ä¸‡å…†å¤©ç©º
  * \file crypt.h 
- * \brief Õâ¸öÎÄ¼ş¶¨ÒåÁË¼òµ¥¼Ó½âÃÜ»º³åÇøµÄ½Ó¿Ú¡£
+ * \brief è¿™ä¸ªæ–‡ä»¶å®šä¹‰äº†ç®€å•åŠ è§£å¯†ç¼“å†²åŒºçš„æ¥å£ã€‚
  * 
- * SimpleXor_CrypeÓÃÓÚÇ¿¶ÈÒªÇó²»¸ßµÄ¼ÓÃÜ¡£ÀıÈç£º
+ * SimpleXor_Crypeç”¨äºå¼ºåº¦è¦æ±‚ä¸é«˜çš„åŠ å¯†ã€‚ä¾‹å¦‚ï¼š
  * \code
  * char OrignalMessage[] = "hello, world.";
  * char EncryptedMessage[64] = {0};
- * // ¼ÓÃÜ
+ * // åŠ å¯†
  * SimpleXor_Crype(EncryptedMessage,OrignalMessage,strlen(OrignalMessage)+1);
- * // ½âÃÜ
+ * // è§£å¯†
  * char DecryptedMessage[64] = {0};
  * SimpleXor_Crype(DecryptedMessage,EncryptedMessage,strlen(OrignalMessage)+1)
  * printf("%s\n",DecryptedMessage);
- * // ´òÓ¡½á¹û£ºhello, world.
+ * // æ‰“å°ç»“æœï¼šhello, world.
  * \endcode
  *
  * \version 1.0
@@ -21,13 +21,28 @@
  * \date 2016/11/11
  */
 #pragma once
-
+#include "util/NonCopyable.h"
+#include <string>
+using std::string;
 
 /**
- * \brief ¼òµ¥µÄ¶Ô³Æ¼Ó½âÃÜ¼ÓÃÜËã·¨º¯Êı£¬¼ÓÃÜ½âÃÜ¶¼ÓÃÕâÒ»¸öº¯Êı¡£¼ÓÃÜÇ°ºóµÄÊı¾İ³¤¶È²»»á·¢Éú±ä»¯¡£
- * \param dest ¼ÓÃÜºóµÄ»º³åÇø
- * \param src ¼ÓÃÜÇ°µÄ»º³åÇø
- * \param len ¼ÓÃÜ³¤¶È
- * \return ÎŞ
+ * XorCrypter object is used to encrypt/decrypt a message very simply(use xor).
  */
-void SimpleXor_Crype(char *dest, const char *src, int len);
+class XorCrypter : public NonCopyable {
+public:
+    /**
+     * Crypter construct funcion.
+     * @param key Set the key, Use default key if this parameter is an empty string.
+     */
+    explicit XorCrypter(const string& key);
+
+    /**
+     * ç®€å•çš„å¯¹ç§°åŠ è§£å¯†åŠ å¯†ç®—æ³•å‡½æ•°ï¼ŒåŠ å¯†è§£å¯†éƒ½ç”¨è¿™ä¸€ä¸ªå‡½æ•°ã€‚åŠ å¯†å‰åçš„æ•°æ®é•¿åº¦ä¸ä¼šå‘ç”Ÿå˜åŒ–ã€‚
+     * @param dest åŠ å¯†åçš„ç¼“å†²åŒº
+     * @param src åŠ å¯†å‰çš„ç¼“å†²åŒº
+     * @param len åŠ å¯†é•¿åº¦
+     */
+    void SimpleXor_Crype(char *dest, const char *src, int len);
+private:
+    string m_key;
+};
