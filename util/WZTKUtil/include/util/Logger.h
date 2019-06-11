@@ -122,7 +122,7 @@ public:
 	 void setLogFileName(const std::string& logFileName);
 
 	 /**
-	  * \brief 设置是否同时将日志打印到标准输出。默认不打印
+	  * \brief 璁剧疆鏄惁鍚屾椂灏嗘棩蹇楁墦鍗板埌鏍囧噯杈撳嚭銆傞粯璁や笉鎵撳嵃
 	  */
 	 void setIsPrintStdOutput(bool PrintToStdOutput);
 

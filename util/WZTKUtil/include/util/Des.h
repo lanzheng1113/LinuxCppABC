@@ -155,6 +155,13 @@ namespace Util {
          */
         void DecryStrHex(string strInText, string& strOutText, string strKeyText);
         void DecryStrHex(const char* chrInText, char* chrOutText, const char* chrKeyText);
+        /**
+         * Decrypt a HEX-type string which encrypted by EncryStrHex series functions.
+         * @param str_in the input string to decrypted, it must be encrypted by `EncryStrHex` series functions.
+         * @param pchr_out [out] The data encrypted, You need to delete the memory block this paramter returned.
+         * @param llen [out] return the decrypted data length.
+         * @param str_key the key.
+         */
         void DecryStrHex(string str_in, unsigned char **pchr_out, unsigned long &llen, string str_key);
         /**
          * \brief 加密字符串，如果字符串长度不是8的整数倍则在其后补充NULL。
