@@ -20,9 +20,6 @@
 using namespace std;
 
 #include "util/md5.h"
-#include "util/DateTime.h"
-#include "util/DateTimeSpan.h"
-#include "util/Logger.h"
 
 bool test_md5() {
     CMD5CheckSum ck;
@@ -38,6 +35,8 @@ bool test_md5() {
     }
 }
 
+#include "util/DateTime.h"
+#include "util/DateTimeSpan.h"
 bool test_date_time() {
     DateTime dt(30, 5, 2019, 18, 34, 18);
     if (dt.toString() != "2019-05-30 18:34:18") return false;
@@ -80,6 +79,7 @@ bool test_date_time() {
     return true;
 }
 
+#include "util/Logger.h"
 bool test_logger() {
     int i = 0;
     Logger::getInstance()->setLogFileName("TestLogger.txt");
@@ -105,12 +105,27 @@ bool test_logger() {
             && file_content.find("Error message 4") != string::npos);
 }
 
+#include "util/crypt.h"
+bool test_xor_crypt()
+{
+    XorCrypter x(string(""));
+    char msg[32] = "123456";
+    char msg2[32] = "";
+    char msg3[32] = "";
+    x.SimpleXor_Crype(msg2, msg, sizeof(msg));
+    x.SimpleXor_Crype(msg3, msg2, sizeof(msg3));
+    cout << msg3 << endl;
+    return 0 == strcmp(msg, msg3);
+}
+
+
 #define TEST(FUN) (cout << #FUN << "\t" << (FUN()?"OK":"FAILED") << endl)
 
 int main(int argc, char** argv) {
     TEST(test_md5);
     TEST(test_date_time);
     TEST(test_logger);
+    TEST(test_xor_crypt);
     cout << "Press Enter key to continue..." << endl;
     fgetc(stdin);
     return 0;
