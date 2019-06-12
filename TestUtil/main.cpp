@@ -189,6 +189,40 @@ bool test_des() {
     return true;
 }
 
+#include "util/StringList.h"
+bool test_string_list()
+{
+    StringList sl;
+    sl += "1";
+    sl += "2";
+    if(!(sl.size() == 2) && "1" == sl[0] && "2" == sl[1]) return false;
+    StringList sl2;
+    sl2.push_back("3a");
+    sl2 += "4B";
+    sl += sl2;
+    if(!(sl.size() == 4) && "1" == sl[0] && "2" == sl[1] && "3a" == sl[2] && "4B" == sl[3]) return false;
+    if(!sl.contains("3a", true)) return false;
+    if(!sl.contains("3A", false)) return false;
+    StringList sl3(sl);
+    string cc = sl3.join(" ");
+    if("1 2 3a 4B" != cc) return false;
+    sl3.sort(StringList::Ascendant);
+    cc = sl3.join(" ");
+    if("1 2 3a 4B" != cc) return false;
+    sl3.sort(StringList::Descendant);
+    cc = sl3.join(" ");
+    if("4B 3a 2 1" != cc) return false;
+    sl3.push_back("1");
+    sl3 += "2";
+    sl3 += "3a";
+    sl3 += "4B";
+    sl3.removeDuplicatedStrings();
+    cc = sl3.join(" ");
+    if("1 2 3a 4B" != cc) return false;
+    
+    return true;
+}
+
 #define TEST(FUN) (cout << #FUN << "\t" << (FUN()?"OK":"FAILED") << endl)
 
 int main(int argc, char** argv) {
@@ -197,6 +231,7 @@ int main(int argc, char** argv) {
     TEST(test_logger);
     TEST(test_xor_crypt);
     TEST(test_des);
+    TEST(test_string_list);
     cout << "Press Enter key to continue..." << endl;
     fgetc(stdin);
     return 0;
