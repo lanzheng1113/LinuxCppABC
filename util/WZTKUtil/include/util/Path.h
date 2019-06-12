@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * 
- * \note : Õâ²¿·Ö´úÂëÕª×ÔQuteCom¹¤³Ì£¬ÉÏÃæÎªÆäLicenseËµÃ÷¡£ÎÄ¼şÖĞµÄ´úÂëÒÑ¾­ÒÆ³ı²¿·Ö¿çÆ½Ì¨µÄ´úÂë¡£
+ * \note : è¿™éƒ¨åˆ†ä»£ç æ‘˜è‡ªQuteComå·¥ç¨‹ï¼Œä¸Šé¢ä¸ºå…¶Licenseè¯´æ˜ã€‚æ–‡ä»¶ä¸­çš„ä»£ç å·²ç»ç§»é™¤éƒ¨åˆ†è·¨å¹³å°çš„ä»£ç ã€‚
  */
 
 #ifndef OWPATH_H
@@ -27,7 +27,6 @@
 #include "util/NonCopyable.h"
 
 #include <string>
-
 
 /**
  * \brief Path class.
@@ -41,56 +40,55 @@
  *
  * \ingroup FILE_PATH
  */
-class Path : NonCopyable 
-{
+class Path : NonCopyable {
 public:
 
-	/**
-	 * Gets the directory that contains the application executable.
-	 *
-	 * The executable path returned always finished by "/" or "\".
-	 *
-	 * On MacOS X, returns full path to exe. e.g: /Application/QuteCom.app/Contents/MacOS/QuteCom
-	 *
-	 * @return application executable path
-	 */
-	 static std::string getApplicationDirPath();
+    /**
+     * Gets the directory that contains the application executable.
+     *
+     * The executable path returned always finished by "/" or "\".
+     *
+     * On MacOS X, returns full path to exe. e.g: /Application/QuteCom.app/Contents/MacOS/QuteCom
+     *
+     * @return application executable path
+     */
+    static std::string getApplicationDirPath();
 
 
-	/**
-	 * Gets the configuration directory, typically under user's
-         * home directory.
-	 *
-	 * @return the configuration directory path
-	 */
-	 static std::string getConfigurationDirPath();
+    /**
+     * Gets the configuration directory, typically under user's
+     * home directory.
+     *
+     * @return the configuration directory path
+     */
+    static std::string getConfigurationDirPath();
 
 
-	/**
-	 * @see File::getPathSeparator()
-	 */
-	 static std::string getPathSeparator();
+    /**
+     * @see File::getPathSeparator()
+     */
+    static std::string getPathSeparator();
 
 
-	/**
-	 * Gets the home directory path.
-	 *
-	 * @return the home dir of the current user.
-	 */
-	 static std::string getHomeDirPath();
+    /**
+     * Gets the home directory path.
+     *
+     * @return the home dir of the current user.
+     */
+    static std::string getHomeDirPath();
 
-	 /**
-	  * \brief ÒÆ³ıÎ²²¿ËùÓĞµÄ"\",Í¬shlwapiÖĞµÄ::PathRemoveBackslash
-	  */
-	 static void PathRemoveBackslash( std::string& str );
-	 static void PathRemoveBackslash( std::wstring& str );
+    /**
+     * \brief ç§»é™¤å°¾éƒ¨æ‰€æœ‰çš„"\",åŒshlwapiä¸­çš„::PathRemoveBackslash
+     */
+    static void PathRemoveBackslash(std::string& str);
+    static void PathRemoveBackslash(std::wstring& str);
 
-	 /**
-	  * \brief ÒÆ³ıÎ²²¿ËùÓĞµÄ"/"
-	  */
-	 static void PathRemoveSlash( std::string& str );
-	 static void PathRemoveSlash( std::wstring& str );
+    /**
+     * \brief ç§»é™¤å°¾éƒ¨æ‰€æœ‰çš„"/"
+     */
+    static void PathRemoveSlash(std::string& str);
+    static void PathRemoveSlash(std::wstring& str);
 };
 
 
-#endif	//OWPATH_H
+#endif //OWPATH_H
