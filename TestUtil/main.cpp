@@ -17,9 +17,10 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-using namespace std;
-
 #include "util/md5.h"
+
+using namespace std;
+using namespace qcutil;
 
 bool test_md5() {
     CMD5CheckSum ck;
@@ -131,7 +132,7 @@ bool test_des() {
         //
         // Test CDes::EncryStrHex and CDes::DecryStrHex with string type paramters.
         //
-        Util::CDes d;
+        CDes d;
         string strs = "123123123";
         string strd = "";
         string key = "This is a long long long long long key.";
@@ -148,7 +149,7 @@ bool test_des() {
         // Test CDes::EncryStrHex and CDes::DecryStrHex with `char*` type paramters.
         // void EncryStrHex(const char* chrInText, char* chrOutText, const char* chrKeyText);
         //
-        Util::CDes d;
+        CDes d;
         const char* pTexts = "123123123";
         char out[128] = {0};
         char out2[128] = {0};
@@ -166,7 +167,7 @@ bool test_des() {
         // void EncryStrHex(unsigned char *pchr_in, unsigned long llen, string &str_out, string str_key);
         // void DecryStrHex(string str_in, unsigned char **pchr_out, unsigned long &llen, string str_key);
         //
-        Util::CDes d;
+        CDes d;
         unsigned char pSrc[4] = {0,1,2,3};
  
         string key = "This is a long long long long long key.";
@@ -238,6 +239,13 @@ bool test_path()
     return true;
 }
 
+//#include "util/File.h"
+//bool test_file()
+//{
+//    File f("TestLogger.txt");
+//    if (!f.exists())
+//        return false;
+//}
 
 #define TEST(FUN) (cout << #FUN << "\t" << (FUN()?"OK":"FAILED") << endl)
 
