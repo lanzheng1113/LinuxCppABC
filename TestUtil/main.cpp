@@ -223,6 +223,22 @@ bool test_string_list()
     return true;
 }
 
+#include "util/Path.h"
+bool test_path()
+{
+//    cout << "getApplicationDirPath: "  << Path::getApplicationDirPath() << endl;
+//    cout << "getConfigurationDirPath: " << Path::getConfigurationDirPath() << endl;
+//    cout << "getPathSeparator:" << Path::getPathSeparator() << endl;
+//    cout << "getHomeDirPath:" << Path::getHomeDirPath() << endl;
+//    string cc = Path::getHomeDirPath();
+//    Path::PathRemoveSlash(cc);
+//    cout << cc << endl;
+//    Path::PathRemoveSlash(cc);
+//    cout << cc << endl;
+    return true;
+}
+
+
 #define TEST(FUN) (cout << #FUN << "\t" << (FUN()?"OK":"FAILED") << endl)
 
 int main(int argc, char** argv) {
@@ -232,6 +248,7 @@ int main(int argc, char** argv) {
     TEST(test_xor_crypt);
     TEST(test_des);
     TEST(test_string_list);
+    TEST(test_path);
     cout << "Press Enter key to continue..." << endl;
     fgetc(stdin);
     return 0;
