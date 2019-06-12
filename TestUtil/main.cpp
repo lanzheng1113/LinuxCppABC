@@ -238,14 +238,54 @@ bool test_path()
 //    cout << cc << endl;
     return true;
 }
-
-//#include "util/File.h"
-//bool test_file()
-//{
-//    File f("TestLogger.txt");
-//    if (!f.exists())
-//        return false;
-//}
+#include <unistd.h>
+#include "util/File.h"
+#ifndef MAX_PATH
+#define MAX_PATH 512
+#endif
+bool test_file()
+{
+    if (!File::exists("TestLogger.txt"))
+        return false;
+    char pcwd[MAX_PATH] = {0};
+    if(!getcwd(pcwd, MAX_PATH))
+        return false;
+    string file_full_path = string(pcwd) + "/" + "TestLogger.txt";  //Created in test_logger();
+    File f1(file_full_path);
+    if (f1.getFullPath() != file_full_path)
+        return false;
+    if ("txt" != f1.getExtension())
+        return false;
+    if ("TestLogger.txt" != f1.getFileName())
+        return false;
+    if (string(pcwd) != f1.getPath())
+        return false;
+    if (0 >= f1.getSize()) 
+        return false;
+    File::FileTimes ft = f1.getTimes();
+    if (0 == ft.create_time || 0 == ft.last_access_time || 0 == ft.last_modify_time)
+        return false;
+    if (File::isDirectory(file_full_path))
+        return false;
+    string file_path = f1.getPath();
+    File f2(file_path);
+    StringList dir_list = f2.getDirectoryList();
+    if (dir_list.size() < 3 || !dir_list.contains("nbproject") || !dir_list.contains("build") || !dir_list.contains("dist")) //Only works when pulling source  files with the whole directory.
+        return false;  
+    StringList file_list = f2.getFileList();
+    if (file_list.size() < 3 || !file_list.contains("main.cpp") || !file_list.contains("Makefile") || !file_list.contains("TestLogger.txt"))
+        return false;
+//    if(file_list.empty())
+//    {
+//        cout << "no file" << endl;
+//    }
+//    else{
+//        for (auto i : file_list)
+//            cout << i << endl;
+//    }
+    //cout << DateTime(ft.create_time).toString() << "-" << DateTime(ft.last_access_time).toString() << "-" << DateTime(ft.last_modify_time).toString() << endl;
+    return true;
+}
 
 #define TEST(FUN) (cout << #FUN << "\t" << (FUN()?"OK":"FAILED") << endl)
 
@@ -257,6 +297,7 @@ int main(int argc, char** argv) {
     TEST(test_des);
     TEST(test_string_list);
     TEST(test_path);
+    TEST(test_file);
     cout << "Press Enter key to continue..." << endl;
     fgetc(stdin);
     return 0;
