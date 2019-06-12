@@ -139,7 +139,6 @@ public:
     /**
      * Gets file list.
      *
-     * TODO Not implemented yet.
      *
      * @return a list of files contained in 'this' directory
      */

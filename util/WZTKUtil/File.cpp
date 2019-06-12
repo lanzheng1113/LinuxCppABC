@@ -22,7 +22,6 @@
 
 #define LOGGER_COMPONENT "File"
 #include "util/Logger.h"
-#include "util/msdirent.h"
 #include "util/global.h"
 
 #include <string>
@@ -35,6 +34,7 @@ using namespace std;
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <dirent.h>
 
 #ifndef S_ISDIR
 #define S_ISDIR(x) ((x) & _S_IFDIR)
@@ -135,52 +135,6 @@ namespace qcutil {
         return;
     }
 
-#if (defined _WIN32) || (defined WIN32)
-    //ɾ���ļ����Լ��ļ�������ļ�
-
-    BOOL DeleteDirectory(LPCWSTR szDirName) {
-        if (szDirName == NULL)
-            return FALSE;
-
-        WCHAR szDirBuf[MAX_PATH] = {0};
-        wcscpy_s(szDirBuf, szDirName);
-        wcscat_s(szDirBuf, L"\\*");
-
-        WIN32_FIND_DATAW wfd;
-        HANDLE hFind = FindFirstFileW(szDirBuf, &wfd);
-        if (hFind == INVALID_HANDLE_VALUE) {
-            return FALSE;
-        }
-        do {
-            if (wcscmp(wfd.cFileName, L".") == 0 ||
-                    wcscmp(wfd.cFileName, L"..") == 0) {
-                continue;
-            } else {
-
-                WCHAR szDirBuf[MAX_PATH] = {0};
-                wcscpy_s(szDirBuf, szDirName);
-                wcscat_s(szDirBuf, L"\\");
-                wcscat_s(szDirBuf, wfd.cFileName);
-                if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-                    DeleteDirectory(szDirBuf);
-                } else {
-                    //ȥ��ֻ������
-                    SetFileAttributesW(szDirBuf, GetFileAttributesW(szDirBuf) & ~FILE_ATTRIBUTE_READONLY);
-                    DeleteFileW(szDirBuf);
-                }
-            }
-        } while (FindNextFileW(hFind, &wfd));
-        FindClose(hFind);
-        //
-        //ȥ��ֻ�����ԣ�ɾ���ļ�������
-        //
-        SetFileAttributesW(szDirName, GetFileAttributesW(szDirName) & ~FILE_ATTRIBUTE_READONLY);
-        if (!RemoveDirectoryW(szDirName)) {
-            return FALSE;
-        }
-        return TRUE;
-    }
-#endif
 
     bool File::remove() {
 #if (defined _WIN32) || (defined WIN32)
@@ -386,7 +340,7 @@ namespace qcutil {
                     bRet = true;
                     break;
                 } else {
-                    bRet = File(absPath + "\\").isEmptyFolderRecursive();
+                    bRet = File(absPath + getPathSeparator()).isEmptyFolderRecursive();
                     if (bRet) {
                         break;
                     }
@@ -415,7 +369,7 @@ namespace qcutil {
                 if (!isDirectory(absPath)) {
                     fileList += absPath;
                 } else {
-                    fileList += File(absPath + "\\").getFileListRecursive();
+                    fileList += File(absPath + getPathSeparator()).getFileListRecursive();
                 }
             }
         }
@@ -425,9 +379,9 @@ namespace qcutil {
     }
 
     StringList File::getFileList() const {
-        //Same code as File::getDirectoryList()
-
         StringList fileList;
+        if (_filename.empty())
+            return fileList;
 
         DIR * dp = opendir(_filename.c_str());
         if (dp) {
@@ -438,15 +392,18 @@ namespace qcutil {
                 if ((file == ".") || (file == "..")) {
                     continue;
                 }
-
-                std::string absPath = _filename + file;
+                std::string absPath;
+                if (*_filename.rbegin() == '/' || *_filename.rbegin() == '\\')
+                    absPath = _filename + file;
+                else
+                    absPath = _filename + getPathSeparator() + file;
                 if (!isDirectory(absPath)) {
                     fileList += file;
                 }
             }
-        }
 
-        closedir(dp);
+            closedir(dp);
+        }
 
         return fileList;
     }
