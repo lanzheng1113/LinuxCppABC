@@ -1,6 +1,8 @@
 #include "util/DateTimeSpan.h"
 #include "util/StringEx.h"
 
+namespace qcutil
+{
 DateTimeSpan::DateTimeSpan()
 {
 	_difftime = 0;
@@ -120,4 +122,5 @@ DateTimeSpan& DateTimeSpan::operator-=( DateTimeSpan span )
 {
 	_difftime -= span._difftime;
 	return *this;
+}
 }

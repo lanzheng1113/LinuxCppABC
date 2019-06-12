@@ -19,8 +19,11 @@
 
 #include "util/NonCopyable.h"
 
-NonCopyable::NonCopyable() {
-}
+namespace qcutil {
 
-NonCopyable::~NonCopyable() {
+    NonCopyable::NonCopyable() {
+    }
+
+    NonCopyable::~NonCopyable() {
+    }
 }

@@ -2,6 +2,8 @@
 #include "util/Logger.h"
 #include "util/StringEx.h"
 
+namespace qcutil
+{
 DateTime::DateTime() {
     std::time_t curTime = time(NULL);
     struct std::tm * timeinfo = std::localtime(&curTime);
@@ -298,4 +300,5 @@ bool DateTime::isValid() const {
 
 bool DateTime::isLeapYear(int year) {
     return (year % 4) == 0 && ((year % 100) != 0 || (year % 400) == 0);
+}
 }

@@ -13,13 +13,14 @@
 #include <fstream>
 
 /**
- * \defgroup FILE_PATH ÎÄ¼şºÍÂ·¾¶²Ù×÷
- * \brief ³£¼ûÎÄ¼şºÍÂ·¾¶²Ù×÷
+ * \defgroup FILE_PATH æ–‡ä»¶å’Œè·¯å¾„æ“ä½œ
+ * \brief å¸¸è§æ–‡ä»¶å’Œè·¯å¾„æ“ä½œ
  * \{
- * \}
  */
 
-/**
+namespace qcutil
+{
+    /**
  * \brief File interface.
  * \ingroup FILE_PATH
  *
@@ -30,198 +31,195 @@
  * @see QFile
  * @see java.io.*
  */
-class File : NonCopyable 
-{
+class File : NonCopyable {
 public:
-	struct FileTimes
-	{
-		time_t last_access_time;
-		time_t last_modify_time;
-		time_t create_time;
-	};
-	/**
-	 * Filename encoding.
-	 */
-	enum Encoding 
-	{
-		EncodingDefault,
-		EncodingUTF8
-	};
 
-	File(const std::string & filename, Encoding encoding = File::EncodingDefault);
+    struct FileTimes {
+        time_t last_access_time;
+        time_t last_modify_time;
+        time_t create_time;
+    };
 
-	File(const File & file);
+    /**
+     * Filename encoding.
+     */
+    enum Encoding {
+        EncodingDefault,
+        EncodingUTF8
+    };
 
-	virtual ~File() 
-	{
+    File(const std::string & filename, Encoding encoding = File::EncodingDefault);
 
-	}
-	
-	File & operator=(const File & file);
+    File(const File & file);
 
-	/**
-	 * Gets the file extension.
-	 *
-	 * @return the file extension or empty string if there's no extension
-	 */
-	std::string getExtension() const;
+    virtual ~File() {
 
-	/**
-	 * Moves a file.
-	 *
-	 * @param newPath the path we want to move the file to
-	 * @param overwrite true to overwrite the file if it exists.
-	 *
-	 * @return true if the operation succeeds otherwise false.
-	 */
-	bool move(const std::string & newPath, bool overwrite = false);
+    }
 
-	/**
-	 * Removes a file or a directory recursively.
-	 * 
-	 * @return true if the operation succeeds otherwise false.
-	 */
-	bool remove();
+    File & operator=(const File & file);
 
-	/**
-	 * \brief É¾³ıÎÄ¼ş¼ĞÏÂµÄËùÓĞÄÚÈİ£¬µ«²»É¾³ı×Ô¼ºÕâ¸öÄ¿Â¼¡£
-	 * 
-	 * \return true if the operation succeeds otherwise false.
-	 */
-	void removeDirContentsButThis();
+    /**
+     * Gets the file extension.
+     *
+     * @return the file extension or empty string if there's no extension
+     */
+    std::string getExtension() const;
 
-	/**
-	 * Copies a file or a directory recursively.
-	 *
-	 * @param dstPath destination path. Will be created if does not exist
-	 * @return true if operation successful
-	 */
-	bool copy(const std::string & path);
+    /**
+     * Moves a file.
+     *
+     * @param newPath the path we want to move the file to
+     * @param overwrite true to overwrite the file if it exists.
+     *
+     * @return true if the operation succeeds otherwise false.
+     */
+    bool move(const std::string & newPath, bool overwrite = false);
 
-	/**
-	 * Copy a single file.
-	 *
-	 * @param dst destination path or file
-	 * @param src source
-	 * @return true if successful
-	 */
-	static bool copyFile(const std::string & dst, const std::string & src,bool isBinary=true);
+    /**
+     * Removes a file or a directory recursively.
+     * 
+     * @return true if the operation succeeds otherwise false.
+     */
+    bool remove();
 
-	/**
-	 * Gets the path to the file.
-	 *
-	 * The path does not contain the filename, it stops at the last /
-	 *
-	 * @return path to the file
-	 */
-	std::string getPath() const;
+    /**
+     * \brief åˆ é™¤æ–‡ä»¶å¤¹ä¸‹çš„æ‰€æœ‰å†…å®¹ï¼Œä½†ä¸åˆ é™¤è‡ªå·±è¿™ä¸ªç›®å½•ã€‚
+     * 
+     * \return true if the operation succeeds otherwise false.
+     */
+    void removeDirContentsButThis();
 
-	/**
-	 * Gets the full path to the file.
-	 *
-	 * @return path to the file
-	 */
-	std::string getFullPath() const;
+    /**
+     * Copies a file or a directory recursively.
+     *
+     * @param dstPath destination path. Will be created if does not exist
+     * @return true if operation successful
+     */
+    bool copy(const std::string & path);
 
-	/**
-	* Gets the name of the file without its path.
-	*
-	* @return the name of the file without its path
-	*/
-	std::string getFileName() const;
+    /**
+     * Copy a single file.
+     *
+     * @param dst destination path or file
+     * @param src source
+     * @return true if successful
+     */
+    static bool copyFile(const std::string & dst, const std::string & src, bool isBinary = true);
 
-	/**
-	 * Gets directory list.
-	 *
-	 * @return a list of directories contained in 'this' directory
-	 */
-	StringList getDirectoryList() const;
+    /**
+     * Gets the path to the file.
+     *
+     * The path does not contain the filename, it stops at the last /
+     *
+     * @return path to the file
+     */
+    std::string getPath() const;
 
-	/**
-	 * Gets file list.
-	 *
-	 * TODO Not implemented yet.
-	 *
-	 * @return a list of files contained in 'this' directory
-	 */
-	StringList getFileList() const;
+    /**
+     * Gets the full path to the file.
+     *
+     * @return path to the file
+     */
+    std::string getFullPath() const;
 
-	StringList getFileListRecursive() const;
+    /**
+     * Gets the name of the file without its path.
+     *
+     * @return the name of the file without its path
+     */
+    std::string getFileName() const;
 
-	/**
-	 * µİ¹é²éÕÒ´ËÎÄ¼ş¼ĞÏÂ£¬ÒÔ¼°Ã¿Ò»¸ö×ÓÎÄ¼ş¼Ğ¡£²é¿´ÊÇ·ñÓĞÖÁÉÙÒ»¸öÎÄ¼ş
-	 *
-	 * return Èç¹ûÎÄ¼ş¼ĞÄÚÖÁÉÙÓĞÒ»¸öÎÄ¼ş£¬ÄÇÃ´·µ»Øtrue.·ñÔò·µ»Øfalse.
-	 */
-	bool isEmptyFolderRecursive() const;
+    /**
+     * Gets directory list.
+     *
+     * @return a list of directories contained in 'this' directory
+     */
+    StringList getDirectoryList() const;
 
-	/**
-	 * Gets the file size.
-	 *
-	 * @return the file size in bytes.
-	 */
-	unsigned getSize() const;
+    /**
+     * Gets file list.
+     *
+     * TODO Not implemented yet.
+     *
+     * @return a list of files contained in 'this' directory
+     */
+    StringList getFileList() const;
 
-	FileTimes getTimes() const;
-	/**
-	 * Gets pathName with the '/' separators converted to separators that are appropriate for the underlying operating system.
-	 *
-	 * On Windows, convertPathSeparators("c:/winnt/system32") returns "c:\winnt\system32".
-	 *
-	 * @param path path to convert
-	 * @return path converted
-	 */
-	static std::string convertPathSeparators(const std::string & path);
+    StringList getFileListRecursive() const;
 
-	/**
-	 * Gets path with either '/' or '\' separators converted to '/' separators
-	 */
-	static std::string convertToUnixPathSeparators(const std::string & path);
+    /**
+     * é€’å½’æŸ¥æ‰¾æ­¤æ–‡ä»¶å¤¹ä¸‹ï¼Œä»¥åŠæ¯ä¸€ä¸ªå­æ–‡ä»¶å¤¹ã€‚æŸ¥çœ‹æ˜¯å¦æœ‰è‡³å°‘ä¸€ä¸ªæ–‡ä»¶
+     *
+     * return å¦‚æœæ–‡ä»¶å¤¹å†…è‡³å°‘æœ‰ä¸€ä¸ªæ–‡ä»¶ï¼Œé‚£ä¹ˆè¿”å›true.å¦åˆ™è¿”å›false.
+     */
+    bool isEmptyFolderRecursive() const;
 
-	/**
-	 * Gets the native directory separator: "/" under Unix (including Mac OS X) and "\" under Windows.
-	 *
-	 * @return native system path separator
-	 */
-	static std::string getPathSeparator();
+    /**
+     * Gets the file size.
+     *
+     * @return the file size in bytes.
+     */
+    unsigned getSize() const;
 
-	/**
-	 * µİ¹é´´½¨Ä¿Â¼£¬Èç¹ûÄ¿Â¼ÒÑ¾­´æÔÚÔò²»×öÈÎºÎÊÂÇé¡£
-	 * Èç¹û´«ÈëµÄ²ÎÊıÊÇÒ»¸öÄ¿Â¼£¬½áÎ²ÔòÒ»¶¨Òª¼Ó·´Ğ±¸Ü¡£
-	 * Èç File::createPath("C:\\User\\Admistrator\\SB\\SB2.txt")»á³¢ÊÔ
-	 * - ´´½¨C:
-	 * - ´´½¨C:\\User
-	 * - ´´½¨C:\\User\\Admistrator
-	 * - ´´½¨C:\\User\\Admistrator\\SB
-	 *
-	 * @param path the path to create
-	 */
-	static void createPath(const std::string & path);
+    FileTimes getTimes() const;
+    /**
+     * Gets pathName with the '/' separators converted to separators that are appropriate for the underlying operating system.
+     *
+     * On Windows, convertPathSeparators("c:/winnt/system32") returns "c:\winnt\system32".
+     *
+     * @param path path to convert
+     * @return path converted
+     */
+    static std::string convertPathSeparators(const std::string & path);
 
-	/**
-	 * Creates a temporary file.
-	 *
-	 * @return the temporary file
-	 */
-	static File createTemporaryFile();
+    /**
+     * Gets path with either '/' or '\' separators converted to '/' separators
+     */
+    static std::string convertToUnixPathSeparators(const std::string & path);
 
-	/**
-	 * @return true if the given path exists.
-	 */
-	static bool exists(const std::string & path);
+    /**
+     * Gets the native directory separator: "/" under Unix (including Mac OS X) and "\" under Windows.
+     *
+     * @return native system path separator
+     */
+    static std::string getPathSeparator();
 
-	/**
-	 * @return true if the file is a directory.
-	 */
-	static bool isDirectory(const std::string & filename);
+    /**
+     * é€’å½’åˆ›å»ºç›®å½•ï¼Œå¦‚æœç›®å½•å·²ç»å­˜åœ¨åˆ™ä¸åšä»»ä½•äº‹æƒ…ã€‚
+     * å¦‚æœä¼ å…¥çš„å‚æ•°æ˜¯ä¸€ä¸ªç›®å½•ï¼Œç»“å°¾åˆ™ä¸€å®šè¦åŠ åæ–œæ ã€‚
+     * å¦‚ File::createPath("C:\\User\\Admistrator\\SB\\SB2.txt")ä¼šå°è¯•
+     * - åˆ›å»ºC:
+     * - åˆ›å»ºC:\\User
+     * - åˆ›å»ºC:\\User\\Admistrator
+     * - åˆ›å»ºC:\\User\\Admistrator\\SB
+     *
+     * @param path the path to create
+     */
+    static void createPath(const std::string & path);
+
+    /**
+     * Creates a temporary file.
+     *
+     * @return the temporary file
+     */
+    static File createTemporaryFile();
+
+    /**
+     * @return true if the given path exists.
+     */
+    static bool exists(const std::string & path);
+
+    /**
+     * @return true if the file is a directory.
+     */
+    static bool isDirectory(const std::string & filename);
 
 protected:
 
-	std::string _filename;
+    std::string _filename;
 
-	File::Encoding _encoding;
+    File::Encoding _encoding;
 };
-
 
 /**
  * Interface for FileReader and FileWriter.
@@ -230,32 +228,30 @@ protected:
  *
  * @author Tanguy Krotoff
  */
-class IFile : Interface 
-{
+class IFile : Interface {
 public:
 
-	/**
-	 * Closes the file.
-	 */
-	virtual void close() = 0;
+    /**
+     * Closes the file.
+     */
+    virtual void close() = 0;
 
 protected:
 
-	/**
-	 * Opens the file for writing or reading.
-	 *
-	 * @return true if success; false otherwise
-	 */
-	virtual bool open() = 0;
+    /**
+     * Opens the file for writing or reading.
+     *
+     * @return true if success; false otherwise
+     */
+    virtual bool open() = 0;
 
-	/**
-	 * Gets if the file is open or not.
-	 *
-	 * @return true if file open; false otherwise
-	 */
-	virtual bool isOpen() /*const*/ = 0;
+    /**
+     * Gets if the file is open or not.
+     *
+     * @return true if file open; false otherwise
+     */
+    virtual bool isOpen() /*const*/ = 0;
 };
-
 
 /**
  * Reads from a file.
@@ -265,35 +261,34 @@ protected:
 class FileReader : public File, public IFile {
 public:
 
-	 FileReader(const std::string & filename);
+    FileReader(const std::string & filename);
 
-	 FileReader(const FileReader & fileReader);
+    FileReader(const FileReader & fileReader);
 
-	 FileReader(const File & file);
+    FileReader(const File & file);
 
-	 ~FileReader();
+    ~FileReader();
 
-	 bool open();
+    bool open();
 
-	/**
-	 * Reads data from the file.
-	 *
-	 * You must call open() first and check the returned value otherwise
-	 * it will make an assertion (a crash).
-	 *
-	 * @return data read from the file
-	 */
-	 std::string read();
+    /**
+     * Reads data from the file.
+     *
+     * You must call open() first and check the returned value otherwise
+     * it will make an assertion (a crash).
+     *
+     * @return data read from the file
+     */
+    std::string read();
 
-	 void close();
+    void close();
 
 private:
 
-	bool isOpen();
+    bool isOpen();
 
-	std::ifstream _file;
+    std::ifstream _file;
 };
-
 
 /**
  * Writes to a file.
@@ -303,54 +298,55 @@ private:
 class FileWriter : public File, public IFile {
 public:
 
-	 FileWriter(const std::string & filename, bool binaryMode = true);
+    FileWriter(const std::string & filename, bool binaryMode = true);
 
-	 FileWriter(const FileWriter & fileWriter, bool binaryMode = true);
+    FileWriter(const FileWriter & fileWriter, bool binaryMode = true);
 
-	 FileWriter(const File & file, bool binaryMode = true);
+    FileWriter(const File & file, bool binaryMode = true);
 
-	 ~FileWriter();
+    ~FileWriter();
 
-	 bool open();
-	/**
-	 * Writes data to the file.
-	 *
-	 * You must call open() first and check the returned value otherwise
-	 * it will make an assertion (a crash).
-	 *
-	 * @param data data to write to the file
-	 */
-	 void write(const std::string & data);
+    bool open();
+    /**
+     * Writes data to the file.
+     *
+     * You must call open() first and check the returned value otherwise
+     * it will make an assertion (a crash).
+     *
+     * @param data data to write to the file
+     */
+    void write(const std::string & data);
 
-	 void close();
+    void close();
 
-	/**
-	 * Set a value to _appendMode
-	 *
-	 * WARNING : can NOT be used when the file is already open !!
-	 *
-	 * WHY THIS IS NOT INSIDE THE CONSTRUCTOR SINCE IT CANNOT BE CHANGED LATER ON???
-	 *
-	 * @param newAppendMode : value wanted
-	 * @return value obtained
-	 */
-	 bool setAppendMode(bool appendMode);
+    /**
+     * Set a value to _appendMode
+     *
+     * WARNING : can NOT be used when the file is already open !!
+     *
+     * WHY THIS IS NOT INSIDE THE CONSTRUCTOR SINCE IT CANNOT BE CHANGED LATER ON???
+     *
+     * @param newAppendMode : value wanted
+     * @return value obtained
+     */
+    bool setAppendMode(bool appendMode);
 
 private:
 
 
-	bool isOpen();
+    bool isOpen();
 
-	std::ofstream _file;
+    std::ofstream _file;
 
-	bool _fileOpen;
+    bool _fileOpen;
 
-	bool _binaryMode;
+    bool _binaryMode;
 
-	bool _appendMode;
+    bool _appendMode;
 };
+}
 
 /**
  * \}
  */
-#endif	//OWFILE_H
+#endif //OWFILE_H

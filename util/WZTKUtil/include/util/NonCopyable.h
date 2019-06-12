@@ -44,29 +44,31 @@
  * @see boost::noncopyable
  * @author Tanguy Krotoff
  */
-class NonCopyable {
-protected:
+namespace qcutil {
 
-	 NonCopyable();
+    class NonCopyable {
+    protected:
 
-	 ~NonCopyable();
+        NonCopyable();
 
-private:
+        ~NonCopyable();
 
-	/**
-	 * Copy constructor is private.
-	 */
-	NonCopyable(const NonCopyable &);
+    private:
 
-	/**
-	 * Copy assignement is private.
-	 */
-	const NonCopyable & operator=(const NonCopyable &);
-};
+        /**
+         * Copy constructor is private.
+         */
+        NonCopyable(const NonCopyable &);
 
+        /**
+         * Copy assignement is private.
+         */
+        const NonCopyable & operator=(const NonCopyable &);
+    };
+}
 /**
  * \}
  */
 
-#endif	//OWNONCOPYABLE_H
+#endif //OWNONCOPYABLE_H
 

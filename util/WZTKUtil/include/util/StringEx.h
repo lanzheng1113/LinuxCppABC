@@ -31,6 +31,8 @@
 #include <string>
 #include <vector>
 
+namespace qcutil
+{
 class StringList;
 /**
  * \defgroup STRINGS 字符串操作
@@ -297,4 +299,5 @@ public:
 /**
  * \}
  */
+}
 #endif	//OWSTRING_H

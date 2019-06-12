@@ -23,78 +23,80 @@
 #include <ctime>
 #include <string>
 
-/**
- * Represents a time.
- *
- * \author Mathieu Stute
- * \ingroup DATE_TIME
- */
-class Time {
-	friend class TimeXMLSerializer;
-public:
+namespace qcutil {
 
-	/**
-	 * Creates a time with the current time.
-	 */
-	 Time();
+    /**
+     * Represents a time.
+     *
+     * \author Mathieu Stute
+     * \ingroup DATE_TIME
+     */
+    class Time {
+        friend class TimeXMLSerializer;
+    public:
 
-	/**
-	 * Copy constructor.
-	 */
-	 Time(const Time & time);
+        /**
+         * Creates a time with the current time.
+         */
+        Time();
 
-	/**
-	 * Creates a time from an hour  a minute and a second.
-	 *
-	 * @param hour hours of the time
-	 * @param minute minutes of the time
-	 * @param second seconds of the time
-	 */
-	 Time(unsigned hour, unsigned minute, unsigned second);
+        /**
+         * Copy constructor.
+         */
+        Time(const Time & time);
 
-	 ~Time();
+        /**
+         * Creates a time from an hour  a minute and a second.
+         *
+         * @param hour hours of the time
+         * @param minute minutes of the time
+         * @param second seconds of the time
+         */
+        Time(unsigned hour, unsigned minute, unsigned second);
 
-	 bool operator==(const Time & time) const;
+        ~Time();
 
-	/**
-	 * @return the hour of the time. range: 0-23.
-	 */
-	 unsigned getHour() const;
+        bool operator==(const Time & time) const;
 
-	/**
-	 * Sets the hour.
-	 */
-	 void setHour(unsigned hour);
+        /**
+         * @return the hour of the time. range: 0-23.
+         */
+        unsigned getHour() const;
 
-	/**
-	 * @return the minute of the time. range: 0-59.
-	 */
-	 unsigned getMinute() const;
+        /**
+         * Sets the hour.
+         */
+        void setHour(unsigned hour);
 
-	/**
-	 * Sets the minute.
-	 */
-	 void setMinute(unsigned minute);
+        /**
+         * @return the minute of the time. range: 0-59.
+         */
+        unsigned getMinute() const;
 
-	/**
-	 * Gets the second. range: 0-59.
-	 */
-	 unsigned getSecond() const;
+        /**
+         * Sets the minute.
+         */
+        void setMinute(unsigned minute);
 
-	/**
-	 * Sets second.
-	 */
-	 void setSecond(unsigned second);
+        /**
+         * Gets the second. range: 0-59.
+         */
+        unsigned getSecond() const;
 
-	/**
-	 * @return a string representing the time. (e.g: "hh:mm:ss")
-	 */
-	 std::string toString() const;
+        /**
+         * Sets second.
+         */
+        void setSecond(unsigned second);
 
-private:
-	unsigned _hour;
-	unsigned _minute;
-	unsigned _second;
-};
+        /**
+         * @return a string representing the time. (e.g: "hh:mm:ss")
+         */
+        std::string toString() const;
 
-#endif	//OWTIME_H
+    private:
+        unsigned _hour;
+        unsigned _minute;
+        unsigned _second;
+    };
+}
+#endif //OWTIME_H

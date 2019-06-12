@@ -24,7 +24,7 @@
 #include "util/StringEx.h"
 #include "util/global.h"
 #include <fstream>
-
+#include <mutex>
 /*
 __FILE__ : file source name
 __LINE__ : line number inside the source file
@@ -42,6 +42,8 @@ __PRETTY_FUNCTION__ : function name
 	#define LOGGER_COMPONENT "Common"
 #endif
 
+namespace qcutil
+{
 /** Macros for the Logger class. */
 #define LOG_DEBUG Logger::getInstance()->getHelper(LOGGER_COMPONENT, Logger::Debug, __FUNCTION__, NULL, 0)
 #define LOG_INFO  Logger::getInstance()->getHelper(LOGGER_COMPONENT, Logger::Info,  __FUNCTION__, NULL, 0)
@@ -75,7 +77,9 @@ __PRETTY_FUNCTION__ : function name
  * @author Aurelien Gateau
  * \ingroup LOG_AND_DEBUG_MSG
  */
-#include <mutex>
+
+
+
 class Logger : NonCopyable {
 public:
 	enum Level {
@@ -174,5 +178,5 @@ private:
 
 	static Logger* instance;
 };
-
+}
 #endif	//OWLOGGER_H

@@ -1,6 +1,6 @@
 #include "util/Des.h"
 #include <string.h>
-namespace Util {
+namespace qcutil {
 
     CDes::CDes() {
         Initialize();

@@ -23,15 +23,17 @@
 #include "util/NonCopyable.h"
 
 /**
- * Ω”ø⁄¿‡
+ * Êé•Âè£Á±ª
  * @author Tanguy Krotoff
  * \ingroup BASIC_CLASS
  */
-class Interface : NonCopyable 
-{
-public:
+namespace qcutil {
 
-	virtual ~Interface() { }
-};
+    class Interface : NonCopyable {
+    public:
 
-#endif	//OWINTERFACE_H
+        virtual ~Interface() {
+        }
+    };
+}
+#endif //OWINTERFACE_H

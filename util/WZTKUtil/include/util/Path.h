@@ -28,6 +28,8 @@
 
 #include <string>
 
+namespace qcutil
+{
 /**
  * \brief Path class.
  *
@@ -89,6 +91,6 @@ public:
     static void PathRemoveSlash(std::string& str);
     static void PathRemoveSlash(std::wstring& str);
 };
-
+};
 
 #endif //OWPATH_H

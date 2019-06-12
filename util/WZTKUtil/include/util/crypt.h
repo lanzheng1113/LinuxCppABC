@@ -25,24 +25,27 @@
 #include <string>
 using std::string;
 
-/**
- * XorCrypter object is used to encrypt/decrypt a message very simply(use xor).
- */
-class XorCrypter : public NonCopyable {
-public:
-    /**
-     * Crypter construct funcion.
-     * @param key Set the key, Use default key if this parameter is an empty string.
-     */
-    explicit XorCrypter(const string& key);
+namespace qcutil {
 
     /**
-     * 简单的对称加解密加密算法函数，加密解密都用这一个函数。加密前后的数据长度不会发生变化。
-     * @param dest 加密后的缓冲区
-     * @param src 加密前的缓冲区
-     * @param len 加密长度
+     * XorCrypter object is used to encrypt/decrypt a message very simply(use xor).
      */
-    void SimpleXor_Crype(char *dest, const char *src, int len);
-private:
-    string m_key;
-};
+    class XorCrypter : public NonCopyable {
+    public:
+        /**
+         * Crypter construct funcion.
+         * @param key Set the key, Use default key if this parameter is an empty string.
+         */
+        explicit XorCrypter(const string& key);
+
+        /**
+         * 简单的对称加解密加密算法函数，加密解密都用这一个函数。加密前后的数据长度不会发生变化。
+         * @param dest 加密后的缓冲区
+         * @param src 加密前的缓冲区
+         * @param len 加密长度
+         */
+        void SimpleXor_Crype(char *dest, const char *src, int len);
+    private:
+        string m_key;
+    };
+}

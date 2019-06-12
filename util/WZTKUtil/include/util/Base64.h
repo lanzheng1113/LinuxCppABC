@@ -37,24 +37,26 @@
  * @see http://www.ietf.org/rfc/rfc3548.txt
  * @author Tanguy Krotoff
  */
-class Base64 : NonCopyable {
-public:
+namespace qcutil {
 
-	/**
-	 * Encodes using base64.
-	 *
-	 * @param stringToEncode string to encode
-	 * @return encoded string
-	 */
-	 static std::string encode(const std::string & stringToEncode);
+    class Base64 : NonCopyable {
+    public:
 
-	/**
-	 * Decodes using base64.
-	 *
-	 * @param encodedString encoded string
-	 * @return decoded string
-	 */
-	 static std::string decode(const std::string & encodedString);
-};
+        /**
+         * Encodes using base64.
+         *
+         * @param stringToEncode string to encode
+         * @return encoded string
+         */
+        static std::string encode(const std::string & stringToEncode);
 
-#endif	//OWBASE64_H
+        /**
+         * Decodes using base64.
+         *
+         * @param encodedString encoded string
+         * @return decoded string
+         */
+        static std::string decode(const std::string & encodedString);
+    };
+}
+#endif //OWBASE64_H
