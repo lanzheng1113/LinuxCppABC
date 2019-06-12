@@ -57,6 +57,8 @@ string Path::getApplicationDirPath() {
 string Path::getConfigurationDirPath() {
     string result;
 
+#if defined(OS_WINDOWS)
+
     char *appData = getenv("APPDATA");
     if (appData) {
         // remove the last separator to appData
@@ -71,6 +73,16 @@ string Path::getConfigurationDirPath() {
         result = getHomeDirPath() + File::convertPathSeparators("Application Data/");
     }
 
+#elif defined(OS_MACOSX)
+
+    result = getHomeDirPath() + File::convertPathSeparators("Library/Application Support/");
+
+#elif defined(OS_POSIX)
+
+    result = getHomeDirPath();
+
+#endif
+
     return result;
 }
 
@@ -81,6 +93,7 @@ std::string Path::getPathSeparator() {
 string Path::getHomeDirPath() {
     string result;
 
+#if defined(OS_WINDOWS)
     char * homeDrive = getenv("HOMEDRIVE");
     char * homeDir = getenv("HOMEPATH");
     if (homeDrive && homeDir) {
@@ -102,6 +115,12 @@ string Path::getHomeDirPath() {
         result = tmpHomeDrive + tmpHomeDir;
     }
 
+#elif defined(OS_POSIX)
+    char * homeDir = getenv("HOME");
+    if (homeDir) {
+        result = homeDir;
+    }
+#endif
     result += File::getPathSeparator();
 
     return result;
