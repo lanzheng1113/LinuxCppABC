@@ -48,6 +48,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/WZTKUtil/StringList.o \
 	${OBJECTDIR}/WZTKUtil/Time.o \
 	${OBJECTDIR}/WZTKUtil/crypt.o \
+	${OBJECTDIR}/WZTKUtil/json_reader.o \
+	${OBJECTDIR}/WZTKUtil/json_value.o \
+	${OBJECTDIR}/WZTKUtil/json_writer.o \
 	${OBJECTDIR}/WZTKUtil/md5.o
 
 
@@ -141,6 +144,21 @@ ${OBJECTDIR}/WZTKUtil/crypt.o: WZTKUtil/crypt.cpp
 	${MKDIR} -p ${OBJECTDIR}/WZTKUtil
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -IWZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/WZTKUtil/crypt.o WZTKUtil/crypt.cpp
+
+${OBJECTDIR}/WZTKUtil/json_reader.o: WZTKUtil/json_reader.cpp
+	${MKDIR} -p ${OBJECTDIR}/WZTKUtil
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -IWZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/WZTKUtil/json_reader.o WZTKUtil/json_reader.cpp
+
+${OBJECTDIR}/WZTKUtil/json_value.o: WZTKUtil/json_value.cpp
+	${MKDIR} -p ${OBJECTDIR}/WZTKUtil
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -IWZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/WZTKUtil/json_value.o WZTKUtil/json_value.cpp
+
+${OBJECTDIR}/WZTKUtil/json_writer.o: WZTKUtil/json_writer.cpp
+	${MKDIR} -p ${OBJECTDIR}/WZTKUtil
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -IWZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/WZTKUtil/json_writer.o WZTKUtil/json_writer.cpp
 
 ${OBJECTDIR}/WZTKUtil/md5.o: WZTKUtil/md5.cpp
 	${MKDIR} -p ${OBJECTDIR}/WZTKUtil

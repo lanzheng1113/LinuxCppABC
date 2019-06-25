@@ -153,14 +153,14 @@ bool test_des() {
         const char* pTexts = "123123123";
         char out[128] = {0};
         char out2[128] = {0};
-        const char*  key = "This is a long long long long long key.";
+        const char* key = "This is a long long long long long key.";
         d.EncryStrHex(pTexts, out, key);
         d.DecryStrHex(out, out2, key);
         //cout << "orignal string: " << pTexts << "\nencrypted: " << out << "\ndecrypted:" << out2 << endl;
-        if(strcmp(pTexts, out2))
+        if (strcmp(pTexts, out2))
             return false;
     }
-    
+
     {
         //
         // Test EncryStrHex with `unsigned char*` type parameters.
@@ -168,8 +168,8 @@ bool test_des() {
         // void DecryStrHex(string str_in, unsigned char **pchr_out, unsigned long &llen, string str_key);
         //
         CDes d;
-        unsigned char pSrc[4] = {0,1,2,3};
- 
+        unsigned char pSrc[4] = {0, 1, 2, 3};
+
         string key = "This is a long long long long long key.";
         string out = "";
         d.EncryStrHex(pSrc, 4, out, key);
@@ -181,9 +181,9 @@ bool test_des() {
         //for (int i=0; i!= llen; i++)
         //    cout << (int)px[i] << " ";
         //cout << endl;
-        if (!(px && llen == 4 && *(int32_t*)px == 0x03020100))
+        if (!(px && llen == 4 && *(int32_t*) px == 0x03020100))
             return false;
-        if(px)
+        if (px)
             delete []px;
     }
 
@@ -191,51 +191,51 @@ bool test_des() {
 }
 
 #include "util/StringList.h"
-bool test_string_list()
-{
+
+bool test_string_list() {
     StringList sl;
     sl += "1";
     sl += "2";
-    if(!(sl.size() == 2) && "1" == sl[0] && "2" == sl[1]) return false;
+    if (!(sl.size() == 2) && "1" == sl[0] && "2" == sl[1]) return false;
     StringList sl2;
     sl2.push_back("3a");
     sl2 += "4B";
     sl += sl2;
-    if(!(sl.size() == 4) && "1" == sl[0] && "2" == sl[1] && "3a" == sl[2] && "4B" == sl[3]) return false;
-    if(!sl.contains("3a", true)) return false;
-    if(!sl.contains("3A", false)) return false;
+    if (!(sl.size() == 4) && "1" == sl[0] && "2" == sl[1] && "3a" == sl[2] && "4B" == sl[3]) return false;
+    if (!sl.contains("3a", true)) return false;
+    if (!sl.contains("3A", false)) return false;
     StringList sl3(sl);
     string cc = sl3.join(" ");
-    if("1 2 3a 4B" != cc) return false;
+    if ("1 2 3a 4B" != cc) return false;
     sl3.sort(StringList::Ascendant);
     cc = sl3.join(" ");
-    if("1 2 3a 4B" != cc) return false;
+    if ("1 2 3a 4B" != cc) return false;
     sl3.sort(StringList::Descendant);
     cc = sl3.join(" ");
-    if("4B 3a 2 1" != cc) return false;
+    if ("4B 3a 2 1" != cc) return false;
     sl3.push_back("1");
     sl3 += "2";
     sl3 += "3a";
     sl3 += "4B";
     sl3.removeDuplicatedStrings();
     cc = sl3.join(" ");
-    if("1 2 3a 4B" != cc) return false;
-    
+    if ("1 2 3a 4B" != cc) return false;
+
     return true;
 }
 
 #include "util/Path.h"
-bool test_path()
-{
-//    cout << "getApplicationDirPath: "  << Path::getApplicationDirPath() << endl;
-//    cout << "getConfigurationDirPath: " << Path::getConfigurationDirPath() << endl;
-//    cout << "getPathSeparator:" << Path::getPathSeparator() << endl;
-//    cout << "getHomeDirPath:" << Path::getHomeDirPath() << endl;
-//    string cc = Path::getHomeDirPath();
-//    Path::PathRemoveSlash(cc);
-//    cout << cc << endl;
-//    Path::PathRemoveSlash(cc);
-//    cout << cc << endl;
+
+bool test_path() {
+    //    cout << "getApplicationDirPath: "  << Path::getApplicationDirPath() << endl;
+    //    cout << "getConfigurationDirPath: " << Path::getConfigurationDirPath() << endl;
+    //    cout << "getPathSeparator:" << Path::getPathSeparator() << endl;
+    //    cout << "getHomeDirPath:" << Path::getHomeDirPath() << endl;
+    //    string cc = Path::getHomeDirPath();
+    //    Path::PathRemoveSlash(cc);
+    //    cout << cc << endl;
+    //    Path::PathRemoveSlash(cc);
+    //    cout << cc << endl;
     return true;
 }
 #include <unistd.h>
@@ -243,14 +243,14 @@ bool test_path()
 #ifndef MAX_PATH
 #define MAX_PATH 512
 #endif
-bool test_file()
-{
+
+bool test_file() {
     if (!File::exists("TestLogger.txt"))
         return false;
     char pcwd[MAX_PATH] = {0};
-    if(!getcwd(pcwd, MAX_PATH))
+    if (!getcwd(pcwd, MAX_PATH))
         return false;
-    string file_full_path = string(pcwd) + "/" + "TestLogger.txt";  //Created in test_logger();
+    string file_full_path = string(pcwd) + "/" + "TestLogger.txt"; //Created in test_logger();
     File f1(file_full_path);
     if (f1.getFullPath() != file_full_path)
         return false;
@@ -260,7 +260,7 @@ bool test_file()
         return false;
     if (string(pcwd) != f1.getPath())
         return false;
-    if (0 >= f1.getSize()) 
+    if (0 >= f1.getSize())
         return false;
     File::FileTimes ft = f1.getTimes();
     if (0 == ft.create_time || 0 == ft.last_access_time || 0 == ft.last_modify_time)
@@ -271,19 +271,81 @@ bool test_file()
     File f2(file_path);
     StringList dir_list = f2.getDirectoryList();
     if (dir_list.size() < 3 || !dir_list.contains("nbproject") || !dir_list.contains("build") || !dir_list.contains("dist")) //Only works when pulling source  files with the whole directory.
-        return false;  
+        return false;
     StringList file_list = f2.getFileList();
     if (file_list.size() < 3 || !file_list.contains("main.cpp") || !file_list.contains("Makefile") || !file_list.contains("TestLogger.txt"))
         return false;
-//    if(file_list.empty())
-//    {
-//        cout << "no file" << endl;
-//    }
-//    else{
-//        for (auto i : file_list)
-//            cout << i << endl;
-//    }
+    //    if(file_list.empty())
+    //    {
+    //        cout << "no file" << endl;
+    //    }
+    //    else{
+    //        for (auto i : file_list)
+    //            cout << i << endl;
+    //    }
     //cout << DateTime(ft.create_time).toString() << "-" << DateTime(ft.last_access_time).toString() << "-" << DateTime(ft.last_modify_time).toString() << endl;
+    return true;
+}
+
+#include "json/json.h"
+
+bool test_json() {
+    // test basic type
+    {
+        Json::Value jv;
+        jv["int"] = (int) - 1;
+        jv["i64"] = (int64_t) - 2;
+        jv["float"] = 3.14159260;
+        jv["const char ptr"] = "this is a const string ptr";
+        jv["std string"] = std::string("this is a std string");
+        // test json ==> string
+        std::string print_msg = jv.toStyledString();
+        //cout << print_msg << endl;
+
+        //test string ==> json
+        Json::Reader reader;
+        Json::Value jv_read;
+        if (!reader.parse(print_msg, jv_read))
+            return false;
+        if (!jv_read.isMember("int")) return false;
+        if (jv_read["int"].asInt() != -1) return false;
+        if (!jv_read.isMember("i64")) return false;
+        if (jv_read["i64"].asInt64() != -2) return false;
+        if (!jv_read.isMember("float")) return false;
+        if (abs(jv_read["float"].asFloat() - 3.1415926) > 0.000001) return false;
+        if (!jv_read.isMember("const char ptr")) return false;
+        if (strcmp(jv_read["const char ptr"].asCString(), "this is a const string ptr")) return false;
+        if (!jv_read.isMember("std string")) return false;
+        if (jv_read["std string"].asString() != "this is a std string") return false;
+    }
+    //test json object in json object
+    {
+        Json::Value jv;
+        jv["a"] = 1;
+        jv["b"] = "1";
+        
+        Json::Value jv_root;
+        jv_root["root"] = jv;
+        
+        if(!jv_root.isMember("root")) return false;
+        if(!jv_root["root"].isObject()) return false;
+        Json::Value test1 = jv_root["root"];
+        if (test1["a"].asInt() != 1) return false;
+        if (test1["b"].asString() != "1") return false;
+    }
+    //test array
+    {
+        Json::Value jv_array;
+        jv_array.append(Json::Value("0"));
+        jv_array.append(Json::Value("1"));
+        jv_array.append(Json::Value("2"));
+        if (!jv_array.isArray()) return false;
+        if (jv_array.size() != 3) return false;
+        if (jv_array[0].asString() != "0") return false;
+        if (jv_array[1].asString() != "1") return false;
+        if (jv_array[2].asString() != "2") return false;
+    }
+
     return true;
 }
 
@@ -298,6 +360,7 @@ int main(int argc, char** argv) {
     TEST(test_string_list);
     TEST(test_path);
     TEST(test_file);
+    TEST(test_json);
     cout << "Press Enter key to continue..." << endl;
     fgetc(stdin);
     return 0;
