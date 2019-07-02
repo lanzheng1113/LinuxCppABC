@@ -3,11 +3,15 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
       <itemPath>cptype.h</itemPath>
+      <itemPath>logger.h</itemPath>
       <itemPath>task_status.h</itemPath>
+      <itemPath>torrent_client.h</itemPath>
       <itemPath>wapper.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
+      <itemPath>logger.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>wapper.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
     </logicalFolder>
@@ -32,12 +36,27 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <ccTool>
+          <standard>8</standard>
+        </ccTool>
+        <linkerTool>
+          <linkerCopySharedLibs>true</linkerCopySharedLibs>
+          <commandLine>-lboost_system -lpthread</commandLine>
+        </linkerTool>
       </compileType>
       <item path="cptype.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="logger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="logger.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="task_status.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="torrent_client.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="wapper.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="wapper.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -64,9 +83,17 @@
       </compileType>
       <item path="cptype.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="logger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="logger.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="task_status.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="torrent_client.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="wapper.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="wapper.h" ex="false" tool="3" flavor2="0">
       </item>
