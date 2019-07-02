@@ -17,9 +17,12 @@
  */
 
 #include <cstdlib>
+#include <iostream>
 #include "wapper.h"
 #include "task_status.h"
-#include <iostream>
+#include "async_call.h"
+#include "sync_call.h"
+
 using namespace std;
 
 int main(int argc, char** argv) 
