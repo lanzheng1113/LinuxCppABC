@@ -26,7 +26,6 @@
 #include <boost/thread/mutex.hpp>
 #include <deque>
 #include <exception>
-using namespace std;
 
 /**
  * Test sync-call in two thread.
@@ -88,9 +87,9 @@ namespace file_seeder {
                     boost::ref(cv),
                     boost::ref(m));
             add_task(f);
-            cout << "Task added." << endl;
+            //std::cout << "Task added." << std::endl;
             sync_call_wait(done, cv, m);
-            cout << "OK, sync_call finished." << endl;
+            //std::cout << "OK, sync_call finished." << std::endl;
         }
         
     private:
@@ -122,7 +121,7 @@ namespace file_seeder {
         void sync_call_wait(bool& done, boost::condition_variable& cv, boost::mutex& m) {
             boost::mutex::scoped_lock a(m);
             while (!done) {
-                cout << "Waiting for task finish." << endl;
+                //std::cout << "Waiting for task finish." << std::endl;
                 cv.wait(a);
             }
         }
@@ -131,13 +130,13 @@ namespace file_seeder {
             fun();
             done = true;
             boost::mutex::scoped_lock a(m);
-            cout << __FUNCTION__ << " Finish sync call and notify all." << endl;
+            //std::cout << __FUNCTION__ << " Finish sync call and notify all." << std::endl;
             cv.notify_all();
         }
 
         void add_task(sync_call_type& f) {
             boost::recursive_mutex::scoped_lock a(m_mutex_task_array);
-            cout << "try add a task." << endl;
+            //std::cout << "try add a task." << std::endl;
             m_task_array.push_back(f);
         }
     private:
@@ -152,14 +151,14 @@ namespace file_seeder {
     public:
         void TestCall() {
             for (int i = 0; i != 10; i++) {
-                cout << "timer : " << i << endl;
+                std::cout << "timer : " << i << std::endl;
                 boost::this_thread::sleep(boost::posix_time::seconds(1));
             }
         }
         
         int FunctionB(int a) {
             while (!m_caller.is_started()) {
-                cout << "thread is not running, wait 1 second" << endl;
+                std::cout << "thread is not running, wait 1 second" << std::endl;
                 boost::this_thread::sleep(boost::posix_time::seconds(1));
             }
 
@@ -173,9 +172,9 @@ namespace file_seeder {
         void TestSyncCall() {
             m_caller.start();
             FunctionB(2);
-            cout << "Enter any key to quit." << endl;
+            std::cout << "Enter any key to quit." << std::endl;
             char b;
-            cin >> b;
+            std::cin >> b;
             m_caller.stop();
         }
     private:

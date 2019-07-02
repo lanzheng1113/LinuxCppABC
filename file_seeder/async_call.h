@@ -25,7 +25,6 @@
 #include <boost/thread/condition_variable.hpp>
 #include <boost/thread/mutex.hpp>
 #include <deque>
-using namespace std;
 
 namespace file_seeder {
 
