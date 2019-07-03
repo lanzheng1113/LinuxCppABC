@@ -117,12 +117,12 @@ namespace file_seeder {
     public:
         void test_task() {
             for (int i = 0; i != 10; i++) {
-                std::cout << "Test counter:" << i << endl;
+                std::cout << "Test counter:" << i << std::endl;
             }
         }
 
         void async_cbk() {
-            std::cout << "Hi, this is async call back." << endl;
+            std::cout << "Hi, this is async call back." << std::endl;
         }
         
         void AddTestTask() {
