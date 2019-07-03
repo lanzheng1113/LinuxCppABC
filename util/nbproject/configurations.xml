@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="f1" displayName="json" projectFiles="true" kind="ROOT">
+      <itemPath>WZTKUtil/json_reader.cpp</itemPath>
+      <itemPath>WZTKUtil/json_tool.h</itemPath>
+      <itemPath>WZTKUtil/json_value.cpp</itemPath>
+      <itemPath>WZTKUtil/json_valueiterator.inl</itemPath>
+      <itemPath>WZTKUtil/json_writer.cpp</itemPath>
+    </logicalFolder>
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
       <itemPath>WZTKUtil/include/util/Base64.h</itemPath>
       <itemPath>WZTKUtil/include/util/Date.h</itemPath>
@@ -15,6 +22,7 @@
       <itemPath>WZTKUtil/include/util/StringEx.h</itemPath>
       <itemPath>WZTKUtil/include/util/StringList.h</itemPath>
       <itemPath>WZTKUtil/include/util/TimeEx.h</itemPath>
+      <itemPath>WZTKUtil/include/util/array_deleter.h</itemPath>
       <itemPath>WZTKUtil/include/util/md5.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
@@ -130,7 +138,22 @@
       </item>
       <item path="WZTKUtil/include/util/TimeEx.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="WZTKUtil/include/util/array_deleter.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="WZTKUtil/include/util/md5.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WZTKUtil/json_reader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="WZTKUtil/json_tool.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WZTKUtil/json_value.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="WZTKUtil/json_valueiterator.inl" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WZTKUtil/json_writer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="WZTKUtil/md5.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -215,7 +238,22 @@
       </item>
       <item path="WZTKUtil/include/util/TimeEx.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="WZTKUtil/include/util/array_deleter.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="WZTKUtil/include/util/md5.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WZTKUtil/json_reader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="WZTKUtil/json_tool.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WZTKUtil/json_value.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="WZTKUtil/json_valueiterator.inl" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WZTKUtil/json_writer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="WZTKUtil/md5.cpp" ex="false" tool="1" flavor2="0">
       </item>
