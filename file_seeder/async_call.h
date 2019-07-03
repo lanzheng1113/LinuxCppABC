@@ -59,12 +59,11 @@ namespace file_seeder {
             if (m_thread->joinable())
                 m_thread->join();
         }
-        
-        bool is_started()
-        {
+
+        bool is_started() {
             return m_thread_started;
         }
-        
+
         void do_call(async_fun& f, boost::function<void()>& cbk) {
             async_fun c = boost::bind(&async_caller::async_call_proxy, this, f, cbk);
             boost::recursive_mutex::scoped_lock a(m_mutex);
@@ -110,11 +109,16 @@ namespace file_seeder {
     };
 
     class async_call_test_suit {
-        async_call_test_suit(){;}
-        ~async_call_test_suit(){
+
+        async_call_test_suit() {
+            ;
+        }
+
+        ~async_call_test_suit() {
             m_caller.stop();
         }
     public:
+
         void test_task() {
             for (int i = 0; i != 10; i++) {
                 std::cout << "Test counter:" << i << std::endl;
@@ -124,7 +128,7 @@ namespace file_seeder {
         void async_cbk() {
             std::cout << "Hi, this is async call back." << std::endl;
         }
-        
+
         void AddTestTask() {
             async_caller::async_fun task = boost::bind(&async_call_test_suit::test_task, this);
             boost::function<void() > cbk = boost::bind(&async_call_test_suit::async_cbk, this);
@@ -132,7 +136,7 @@ namespace file_seeder {
                 m_caller.start();
             m_caller.do_call(task, cbk);
         }
-        
+
         async_caller m_caller;
     };
 }

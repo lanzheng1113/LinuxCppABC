@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/logger.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/torrent_client.o \
 	${OBJECTDIR}/wapper.o
 
 
@@ -62,7 +63,7 @@ LDLIBSOPTIONS=
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/file_seeder: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/file_seeder ${OBJECTFILES} ${LDLIBSOPTIONS} -lboost_system -lpthread
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/file_seeder ${OBJECTFILES} ${LDLIBSOPTIONS} -ltorrent -lboost_system -lboost_thread -pthread
 
 ${OBJECTDIR}/logger.o: logger.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -73,6 +74,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/torrent_client.o: torrent_client.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/torrent_client.o torrent_client.cpp
 
 ${OBJECTDIR}/wapper.o: wapper.cpp
 	${MKDIR} -p ${OBJECTDIR}

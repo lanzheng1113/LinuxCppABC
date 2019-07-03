@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
       <itemPath>async_call.h</itemPath>
       <itemPath>cptype.h</itemPath>
+      <itemPath>easy_timer.h</itemPath>
       <itemPath>logger.h</itemPath>
       <itemPath>sync_call.h</itemPath>
       <itemPath>task_status.h</itemPath>
@@ -13,6 +14,7 @@
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
       <itemPath>logger.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>torrent_client.cpp</itemPath>
       <itemPath>wapper.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
@@ -43,12 +45,14 @@
         </ccTool>
         <linkerTool>
           <linkerCopySharedLibs>true</linkerCopySharedLibs>
-          <commandLine>-lboost_system -lpthread</commandLine>
+          <commandLine>-ltorrent -lboost_system -lboost_thread -pthread</commandLine>
         </linkerTool>
       </compileType>
       <item path="async_call.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="cptype.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="easy_timer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="logger.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -59,6 +63,8 @@
       <item path="sync_call.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="task_status.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="torrent_client.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="torrent_client.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -91,6 +97,8 @@
       </item>
       <item path="cptype.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="easy_timer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="logger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="logger.h" ex="false" tool="3" flavor2="0">
@@ -100,6 +108,8 @@
       <item path="sync_call.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="task_status.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="torrent_client.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="torrent_client.h" ex="false" tool="3" flavor2="0">
       </item>

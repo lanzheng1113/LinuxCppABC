@@ -7,6 +7,6 @@
 namespace file_seeder {
 bool initialize()
 {
-    SLOG << "seeder xunlei-compatible interface initilize." << std::endl;
+    SLOG(info) << "seeder xunlei-compatible interface initilize." << std::endl;
 }
 }
