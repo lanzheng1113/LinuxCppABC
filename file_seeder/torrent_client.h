@@ -19,6 +19,7 @@
 #include <libtorrent/sha1_hash.hpp>
 #include "libtorrent/time.hpp"
 #include <map>
+#include "cptype.h"
 
 namespace libtorrent {
     class session;
@@ -29,6 +30,11 @@ namespace lt = libtorrent;
 namespace file_seeder {
 
     class client_task {
+    public:
+        client_task()
+        {
+            id = 0;
+        }
     public:
         // The task id to instead of `torrent_hash` member, because `torrent_hash` is a big data. it start from 1 and 0 is reserve to represent a `bad id`.
         int id;
@@ -63,7 +69,10 @@ namespace file_seeder {
     public:
         bool start();
         bool stop();
+        DWORD add_torrent(const std::string& url, const std::string& save_path);
     private:
+        // implement `add_torrent` this function will be called in sync-caller.
+        DWORD add_torrent_imp(const std::string& url, const std::string& save_path);
 
         void create_session();
         void on_alert();

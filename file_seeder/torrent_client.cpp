@@ -86,6 +86,69 @@ namespace file_seeder {
         return true;
     }
 
+    static bool is_not_url(const std::string& url) {
+        if (access(url.c_str(), F_OK) == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    static std::vector<std::string> get_more_tracker() {
+        std::vector<std::string> v;
+        // 	= {
+        // 		"udp://47.106.148.175:6969"	//A testing only host.
+        // 	};
+        return v;
+    }
+
+    static int m_task_id = 1; //id 0 is reserved to identify a bad id.
+
+    DWORD torrent_client::add_torrent_imp(const std::string& url, const std::string& save_path) {
+        lt::add_torrent_params atp;
+        atp.flags = lt::add_torrent_params::default_flags & ~lt::add_torrent_params::flag_auto_managed;
+
+        // our clinet is need to download to sync files from other servers.
+        // so the client cannot be set to seed-only mode.
+        /*
+         * if (m_seed_only) {
+            atp.seed_mode = true;
+            atp.flags |= lt::add_torrent_params::flag_upload_mode;
+        }
+         */
+
+        if (is_not_url(url)) {
+            // 如果下载源来自文件，那么需要把文件传给libtorrent::torrent_info.ti
+            atp.ti = boost::make_shared<libtorrent::torrent_info>(url);
+        } else {
+            atp.url = url;
+        }
+        atp.save_path = save_path;
+        // 如果torrent没有带tracker而是依赖DHT去寻找Peers，那么trackers指定一个tracker的URL。
+        atp.trackers = get_more_tracker();
+        boost::system::error_code ec;
+
+        libtorrent::torrent_handle th = m_torrent_session->add_torrent(atp, ec);
+        task_sptr ptr_task = boost::make_shared<client_task>();
+        const DWORD id = m_task_id++;
+        if (ec) {
+            SLOG(error) << "add torrent failed with error: " << ec.message() << std::endl;
+            return 0;
+        }
+
+        ptr_task->id = id;
+        ptr_task->torrent_hash = th.info_hash();
+        m_tasks[ptr_task->torrent_hash] = ptr_task;
+        return ptr_task->id;
+    }
+
+    DWORD torrent_client::add_torrent(const std::string& url, const std::string& save_path) {
+        DWORD add_torrent_result = 0;
+        sync_caller::sync_call_type t = ([ & ](){add_torrent_result = add_torrent_imp(url, save_path);});
+        m_torrent_worker->do_call(t);
+        SLOG(info) << "add_torrent return " << add_torrent_result << std::endl;
+        return add_torrent_result;
+    }
+
     void torrent_client::on_alert() {
         if (!m_torrent_session)
             return;
@@ -105,15 +168,14 @@ namespace file_seeder {
             for (int i = 0; i != alerts.size(); i++) {
                 alerts_clone.push_back(alerts[i]->clone());
             }
-            
+
             for (int i = 0; i != alerts_clone.size(); i++) {
                 std::auto_ptr<lt::alert> alert = alerts_clone[i];
                 if (alert->type() == lt::state_changed_alert::alert_type) {
                     lt::state_changed_alert* o = static_cast<lt::state_changed_alert*> (alert.get());
                     // record the task status to our task list
                     task_sptr task = get_task_from_sha1_hash(o->handle.info_hash());
-                    if (task)
-                    {
+                    if (task) {
                         task->status.state = o->state;
                         if (o->state == lt::torrent_status::downloading_metadata) {
                             ;
@@ -163,7 +225,7 @@ namespace file_seeder {
                     for (auto it : o->status) {
                         task_sptr task = get_task_from_sha1_hash(it.info_hash);
                         if (task) {
-                            task->status = it;  //update status.
+                            task->status = it; //update status.
                         }
                     }
                 } else if (alert->type() == lt::torrent_deleted_alert::alert_type) {
@@ -250,7 +312,7 @@ namespace file_seeder {
                     str += ";";
                     str += alert->message();
                     //str += lt::convert_to_native(alert->message());
-                    m_alert_callback( str, alert->type());
+                    m_alert_callback(str, alert->type());
                 }
             }
         }
