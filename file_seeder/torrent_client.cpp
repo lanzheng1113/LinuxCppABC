@@ -103,7 +103,7 @@ namespace file_seeder {
 
     static int m_task_id = 1; //id 0 is reserved to identify a bad id.
 
-    DWORD torrent_client::add_torrent_imp(const std::string& url, const std::string& save_path) {
+    DWORD torrent_client::add_task_imp(const std::string& url, const std::string& save_path) {
         lt::add_torrent_params atp;
         atp.flags = lt::add_torrent_params::default_flags & ~lt::add_torrent_params::flag_auto_managed;
 
@@ -141,11 +141,12 @@ namespace file_seeder {
         return ptr_task->id;
     }
 
-    DWORD torrent_client::add_torrent(const std::string& url, const std::string& save_path) {
+    DWORD torrent_client::add_task(const std::string& url, const std::string& save_path) {
         DWORD add_torrent_result = 0;
-        sync_caller::sync_call_type t = ([ & ](){add_torrent_result = add_torrent_imp(url, save_path);});
+        sync_caller::sync_call_type t = ([ & ](){add_torrent_result = add_task_imp(url, save_path);});
+         /* Note: Make sure the sync call works well otherwise it would break the stack around variable `add_torrent_result`*/
         m_torrent_worker->do_call(t);
-        SLOG(info) << "add_torrent return " << add_torrent_result << std::endl;
+        SLOG(info) << "add_task return " << add_torrent_result << std::endl;
         return add_torrent_result;
     }
 

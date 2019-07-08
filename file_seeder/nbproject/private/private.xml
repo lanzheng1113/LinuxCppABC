@@ -10,10 +10,12 @@
             <file>file:/home/duocore/NetBeansProjects/LinuxCppABC/file_seeder/main.cpp</file>
             <file>file:/home/duocore/NetBeansProjects/LinuxCppABC/file_seeder/torrent_client.h</file>
             <file>file:/home/duocore/NetBeansProjects/LinuxCppABC/file_seeder/wapper.cpp</file>
+            <file>file:/home/duocore/NetBeansProjects/LinuxCppABC/file_seeder/logger.cpp</file>
             <file>file:/home/duocore/NetBeansProjects/LinuxCppABC/file_seeder/torrent_client.cpp</file>
             <file>file:/home/duocore/NetBeansProjects/LinuxCppABC/file_seeder/easy_timer.h</file>
             <file>file:/home/duocore/NetBeansProjects/LinuxCppABC/file_seeder/async_call.h</file>
             <file>file:/home/duocore/NetBeansProjects/LinuxCppABC/file_seeder/logger.h</file>
+            <file>file:/home/duocore/NetBeansProjects/LinuxCppABC/file_seeder/sync_call.h</file>
             <file>file:/home/duocore/NetBeansProjects/LinuxCppABC/file_seeder/cptype.h</file>
         </group>
     </open-files>

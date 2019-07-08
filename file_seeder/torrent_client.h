@@ -69,10 +69,10 @@ namespace file_seeder {
     public:
         bool start();
         bool stop();
-        DWORD add_torrent(const std::string& url, const std::string& save_path);
+        DWORD add_task(const std::string& url, const std::string& save_path);
     private:
         // implement `add_torrent` this function will be called in sync-caller.
-        DWORD add_torrent_imp(const std::string& url, const std::string& save_path);
+        DWORD add_task_imp(const std::string& url, const std::string& save_path);
 
         void create_session();
         void on_alert();
