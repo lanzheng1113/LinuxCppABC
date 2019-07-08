@@ -15,7 +15,6 @@
       <itemPath>logger.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>torrent_client.cpp</itemPath>
-      <itemPath>wapper.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
     </logicalFolder>
@@ -68,8 +67,6 @@
       </item>
       <item path="torrent_client.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="wapper.cpp" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="wapper.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
@@ -112,8 +109,6 @@
       <item path="torrent_client.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="torrent_client.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="wapper.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="wapper.h" ex="false" tool="3" flavor2="0">
       </item>

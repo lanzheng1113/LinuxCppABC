@@ -37,8 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/logger.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/torrent_client.o \
-	${OBJECTDIR}/wapper.o
+	${OBJECTDIR}/torrent_client.o
 
 
 # C Compiler Flags
@@ -79,11 +78,6 @@ ${OBJECTDIR}/torrent_client.o: torrent_client.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/torrent_client.o torrent_client.cpp
-
-${OBJECTDIR}/wapper.o: wapper.cpp
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/wapper.o wapper.cpp
 
 # Subprojects
 .build-subprojects:
