@@ -29,6 +29,7 @@ enum _EM_DOWN_TASK_STATUS {
     TSC_STOPPENDING
 } EM_DOWN_TASK_STATUS;
 
+/*
 typedef
 enum _EM_XL_TASK_ERROR_TYPE {
     // 未知错误
@@ -70,6 +71,7 @@ enum _EM_XL_TASK_ERROR_TYPE {
 #include <cstring>
 #define ZeroMemory(p, cc) memset((p), 0, (cc)) 
 #endif
+
 
 typedef
 struct _STRUCT_XL_DOWN_TASK_INFO {
@@ -132,7 +134,7 @@ struct _STRUCT_XL_DOWN_TASK_INFO {
     long lUseTime;
 
 } STRUCT_XL_DOWN_TASK_INFO, *PSTRUCT_XL_DOWN_TASK_INFO, *LPSTRUCT_XL_DOWN_TASK_INFO;
-
+*/
 
 //
 // 仅Libtorrent
