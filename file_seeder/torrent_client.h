@@ -31,8 +31,8 @@ namespace file_seeder {
 
     class client_task {
     public:
-        client_task()
-        {
+
+        client_task() {
             id = 0;
         }
     public:
@@ -46,7 +46,7 @@ namespace file_seeder {
         //It is one of lt::add_torrent_params::ti::name / lt::add_torrent_params::name / lt::add_torrent_params::url / lt::add_torrent_params::hash_info
         std::string torrent_name;
     };
-    
+
     struct P2P_LOCAL_SERVICE_INFO {
         int portmap_extern_tcp_port;
         int portmap_extern_udp_port;
@@ -54,11 +54,12 @@ namespace file_seeder {
         int listen_succeeded_udp_port;
         std::string external_ip;
     };
-    
+
     class sync_caller;
     class easy_timer;
     typedef boost::shared_ptr<client_task> task_sptr;
     typedef std::map<lt::sha1_hash, task_sptr> task_map;
+#define INVALID_TASK_ID 0
 
     class torrent_client {
 
@@ -70,20 +71,40 @@ namespace file_seeder {
         bool start();
         bool stop();
         DWORD add_task(const std::string& url, const std::string& save_path);
+        bool start_task(DWORD task_id);
+        bool suspend_task(DWORD task_id);
+        bool delete_task(DWORD task_id);
     private:
         // implement `add_torrent` this function will be called in sync-caller.
         DWORD add_task_imp(const std::string& url, const std::string& save_path);
-
+        // Implement `start_task`, this function will be called in sync-caller.
+        bool start_task_imp(DWORD task_id);
+        // Implement `suspend_task`, this function will be called in sync-caller.
+        bool suspend_task_imp(DWORD task_id);
+        // Implement `delete_task`, this function will be called in sync-caller.
+        bool delete_task_imp(DWORD task_id);
+        // Create the libtorrent session.
         void create_session();
+        // Use to process alert generated in libtorrent session.
         void on_alert();
 
-        task_sptr get_task_from_sha1_hash(const lt::sha1_hash& hash) {
+        task_sptr get_task(const lt::sha1_hash& hash) {
             task_map::iterator it = m_tasks.find(hash);
             if (it != m_tasks.end()) {
                 return it->second;
             } else {
                 return task_sptr();
             }
+        }
+
+        task_sptr get_task(DWORD task_id)
+        {
+            for(auto it : m_tasks)
+            {
+                if(it.second->id == task_id)
+                    return it.second;
+            }
+            return task_sptr();
         }
 
         void remove_task_from_tasklist(const lt::sha1_hash& hash) {
@@ -107,7 +128,7 @@ namespace file_seeder {
         P2P_LOCAL_SERVICE_INFO m_local_service_info;
         // provide a callback function, it will be called when a new alert comes.
         // The first parameter is the alert message (utf-8 encode).and the second one is alert type.
-        boost::function<void (const std::string&, int)> m_alert_callback;
+        boost::function<void (const std::string&, int) > m_alert_callback;
     };
 }
 

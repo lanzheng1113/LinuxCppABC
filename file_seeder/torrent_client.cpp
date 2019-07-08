@@ -132,7 +132,7 @@ namespace file_seeder {
         const DWORD id = m_task_id++;
         if (ec) {
             SLOG(error) << "add torrent failed with error: " << ec.message() << std::endl;
-            return 0;
+            return INVALID_TASK_ID;
         }
 
         ptr_task->id = id;
@@ -143,11 +143,100 @@ namespace file_seeder {
 
     DWORD torrent_client::add_task(const std::string& url, const std::string& save_path) {
         DWORD add_torrent_result = 0;
-        sync_caller::sync_call_type t = ([ & ](){add_torrent_result = add_task_imp(url, save_path);});
-         /* Note: Make sure the sync call works well otherwise it would break the stack around variable `add_torrent_result`*/
+        sync_caller::sync_call_type t = ([ & ]() {
+            add_torrent_result = add_task_imp(url, save_path);
+        });
+        /* Note: Make sure the sync call works well otherwise it would break the stack around variable `add_torrent_result`. */
         m_torrent_worker->do_call(t);
         SLOG(info) << "add_task return " << add_torrent_result << std::endl;
+        /* This function will post a lt::add_torrent_alert when torrent is add to the libtorrent session, we should process it in `on_alert`. */
         return add_torrent_result;
+    }
+
+    bool torrent_client::start_task(DWORD task_id) {
+        // cannot start a invalid task id.
+        if (task_id == INVALID_TASK_ID) {
+            return false;
+        }
+        bool start_task_result = false;
+        sync_caller::sync_call_type t = ([&]() {
+            start_task_result = start_task_imp(task_id);
+        });
+        m_torrent_worker->do_call(t);
+        SLOG(info) << "start_task return " << start_task_result << std::endl;
+        return start_task_result;
+    }
+
+    bool torrent_client::suspend_task(DWORD task_id) {
+        bool suspend_task_result = false;
+        sync_caller::sync_call_type t = ([&]() {
+            suspend_task_result = suspend_task_imp(task_id);
+        });
+        m_torrent_worker->do_call(t);
+        SLOG(info) << "suspend task return " << suspend_task_result << std::endl;
+        return suspend_task_result;
+    }
+
+    bool torrent_client::suspend_task_imp(DWORD task_id) {
+        if (INVALID_TASK_ID == task_id) {
+            m_torrent_session->pause();
+            return true;
+        } else {
+            task_sptr task = get_task(task_id);
+            if (!task) {
+                SLOG(error) << "Failed to suspend task " << task_id << " because the task was not exists." << std::endl;
+                return false;
+            }
+            lt::torrent_handle h = m_torrent_session->find_torrent(task->torrent_hash);
+            h.pause();
+            return true;
+        }
+    }
+
+    bool torrent_client::delete_task(DWORD task_id) {
+        if (INVALID_TASK_ID == task_id) {
+            SLOG(error) << "Failed to delete task because task id is invalid" << std::endl;
+            return false;
+        }
+        bool delete_task_result = false;
+        sync_caller::sync_call_type t = ([&]() {
+            delete_task_result = delete_task_imp(task_id);
+        });
+        m_torrent_worker->do_call(t);
+        SLOG(info) << "delete task result " << delete_task_result << std::endl;
+        return delete_task_result;
+    }
+
+    bool torrent_client::delete_task_imp(DWORD task_id) {
+        task_sptr task = get_task(task_id);
+        if (!task) {
+            SLOG(error) << "Failed to delete task " << task_id << ", because task id is not exists." << std::endl;
+            return false;
+        }
+        lt::torrent_handle h = m_torrent_session->find_torrent(task->torrent_hash);
+        if (h.is_valid()) {
+            SLOG(error) << "Failed to delete task " << task_id << ", because the task was not found in the libtorrent session." << std::endl;
+            return false;
+        }
+        m_torrent_session->remove_torrent(h);
+        return true;
+    }
+
+    bool torrent_client::start_task_imp(DWORD task_id) {
+        task_sptr task = get_task(task_id);
+        if (!task) {
+            SLOG(error) << "Failed to start task " << task_id << " because the task was not exists." << std::endl;
+            return false;
+        }
+
+        libtorrent::torrent_handle h = m_torrent_session->find_torrent(task->torrent_hash);
+        if (!h.is_valid()) {
+            SLOG(error) << "Failed to start task " << task_id << " because the task was not found in session of libtorrent." << std::endl;
+            return false;
+        }
+        h.resume();
+        // lt::state_changed_alert
+        return true;
     }
 
     void torrent_client::on_alert() {
@@ -175,7 +264,7 @@ namespace file_seeder {
                 if (alert->type() == lt::state_changed_alert::alert_type) {
                     lt::state_changed_alert* o = static_cast<lt::state_changed_alert*> (alert.get());
                     // record the task status to our task list
-                    task_sptr task = get_task_from_sha1_hash(o->handle.info_hash());
+                    task_sptr task = get_task(o->handle.info_hash());
                     if (task) {
                         task->status.state = o->state;
                         if (o->state == lt::torrent_status::downloading_metadata) {
@@ -206,7 +295,7 @@ namespace file_seeder {
                     //}
                 } else if (alert->type() == lt::add_torrent_alert::alert_type) {
                     lt::add_torrent_alert* o = static_cast<lt::add_torrent_alert*> (alert.get());
-                    task_sptr task = get_task_from_sha1_hash(o->handle.info_hash());
+                    task_sptr task = get_task(o->handle.info_hash());
                     if (task) {
                         lt::add_torrent_params params = o->params;
                         char info_hash[41];
@@ -224,7 +313,7 @@ namespace file_seeder {
                 } else if (alert->type() == lt::state_update_alert::alert_type) {
                     lt::state_update_alert* o = static_cast<lt::state_update_alert*> (alert.get());
                     for (auto it : o->status) {
-                        task_sptr task = get_task_from_sha1_hash(it.info_hash);
+                        task_sptr task = get_task(it.info_hash);
                         if (task) {
                             task->status = it; //update status.
                         }
@@ -240,7 +329,7 @@ namespace file_seeder {
                     // 2) The operation of pausing a session never post a `torrent_paused_alert` alert.
                     //
                     lt::torrent_paused_alert* o = static_cast<lt::torrent_paused_alert*> (alert.get());
-                    task_sptr task = get_task_from_sha1_hash(o->handle.info_hash());
+                    task_sptr task = get_task(o->handle.info_hash());
                     if (task) {
                         task->status = o->handle.status();
                     }
