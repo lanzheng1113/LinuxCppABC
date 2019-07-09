@@ -18,6 +18,7 @@
 #include <libtorrent/torrent_status.hpp>
 #include <libtorrent/sha1_hash.hpp>
 #include "libtorrent/time.hpp"
+#include <libtorrent/session_status.hpp>
 #include <map>
 #include "cptype.h"
 
@@ -74,6 +75,8 @@ namespace file_seeder {
         bool start_task(DWORD task_id);
         bool suspend_task(DWORD task_id);
         bool delete_task(DWORD task_id);
+        bool query_torrent_status(DWORD task_id, lt::torrent_status& ts);
+        bool query_session_status(lt::session_status& sess_stat);
     private:
         // implement `add_torrent` this function will be called in sync-caller.
         DWORD add_task_imp(const std::string& url, const std::string& save_path);
@@ -83,6 +86,8 @@ namespace file_seeder {
         bool suspend_task_imp(DWORD task_id);
         // Implement `delete_task`, this function will be called in sync-caller.
         bool delete_task_imp(DWORD task_id);
+        bool query_torrent_status_imp(DWORD task_id, lt::torrent_status& ts);
+        bool query_session_status_imp(lt::session_status& sess_stat);
         // Create the libtorrent session.
         void create_session();
         // Use to process alert generated in libtorrent session.

@@ -203,8 +203,55 @@ namespace file_seeder {
             delete_task_result = delete_task_imp(task_id);
         });
         m_torrent_worker->do_call(t);
-        SLOG(info) << "delete task result " << delete_task_result << std::endl;
+        SLOG(info) << "delete task result: " << delete_task_result << std::endl;
         return delete_task_result;
+    }
+
+    bool torrent_client::query_torrent_status(DWORD task_id, lt::torrent_status& ts) {
+        if (INVALID_TASK_ID == task_id) {
+            SLOG(error) << "Failed to delete task because task id is invalid" << std::endl;
+            return false;
+        }
+        bool query_torrent_status_result = false;
+        sync_caller::sync_call_type t = ([&]() {
+            query_torrent_status_result = query_torrent_status_imp(task_id, ts);
+        });
+        m_torrent_worker->do_call(t);
+        SLOG(info) << "query task result: " << query_torrent_status_result << std::endl;
+        return query_torrent_status_result;
+    }
+
+    bool torrent_client::query_torrent_status_imp(DWORD task_id, lt::torrent_status& ts) {
+        task_sptr task = get_task(task_id);
+        if (!task) {
+            SLOG(error) << "failed to get status of task " << task_id << " ,because the task id is not exists." << std::endl;
+            return false;
+        }
+        ts = task->status;
+        return true;
+    }
+
+    bool torrent_client::query_session_status(lt::session_status& sess_stat) {
+        bool query_session_status_result = false;
+        sync_caller::sync_call_type t = ([&]() {
+            query_session_status_result = query_session_status_imp(sess_stat);
+        });
+        m_torrent_worker->do_call(t);
+        SLOG(info) << "Query session status result: " << query_session_status_result << std::endl;
+        return query_session_status_result;
+    }
+
+    bool torrent_client::query_session_status_imp(lt::session_status& sess_stat) {
+        if (!m_torrent_session) {
+            SLOG(error) << "Query session status failed because Session object is null" << std::endl;
+            return false;
+        }
+        if (!m_torrent_session->is_valid()) {
+            SLOG(error) << "Query session status failed because Session object is invalid" << std::endl;
+            return false;
+        }
+        sess_stat = m_torrent_session->status();
+        return true;
     }
 
     bool torrent_client::delete_task_imp(DWORD task_id) {
