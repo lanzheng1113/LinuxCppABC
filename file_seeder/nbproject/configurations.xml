@@ -3,6 +3,7 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
       <itemPath>async_call.h</itemPath>
+      <itemPath>config.h</itemPath>
       <itemPath>cptype.h</itemPath>
       <itemPath>easy_timer.h</itemPath>
       <itemPath>logger.h</itemPath>
@@ -12,6 +13,7 @@
       <itemPath>wapper.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
+      <itemPath>config.cpp</itemPath>
       <itemPath>logger.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>torrent_client.cpp</itemPath>
@@ -22,6 +24,12 @@
                    displayName="测试文件"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f1"
+                     displayName="New C++ 简单测试"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/newsimpletest.cpp</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="重要文件"
@@ -41,18 +49,46 @@
       <compileType>
         <ccTool>
           <standard>8</standard>
+          <incDir>
+            <pElem>../util/WZTKUtil/include</pElem>
+          </incDir>
         </ccTool>
         <linkerTool>
+          <linkerAddLib>
+            <pElem>../util/dist/Debug/GNU-Linux</pElem>
+          </linkerAddLib>
           <linkerCopySharedLibs>true</linkerCopySharedLibs>
+          <linkerLibItems>
+            <linkerLibLibItem>util</linkerLibLibItem>
+          </linkerLibItems>
           <commandLine>-ltorrent -lboost_system -lboost_thread -pthread</commandLine>
         </linkerTool>
       </compileType>
       <item path="async_call.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="config.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="config.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="cptype.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="easy_timer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+        </linkerTool>
+      </folder>
       <item path="logger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="logger.h" ex="false" tool="3" flavor2="0">
@@ -62,6 +98,8 @@
       <item path="sync_call.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="task_status.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/newsimpletest.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="torrent_client.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -92,10 +130,29 @@
       </compileType>
       <item path="async_call.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="config.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="config.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="cptype.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="easy_timer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+        </linkerTool>
+      </folder>
       <item path="logger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="logger.h" ex="false" tool="3" flavor2="0">
@@ -105,6 +162,8 @@
       <item path="sync_call.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="task_status.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/newsimpletest.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="torrent_client.cpp" ex="false" tool="1" flavor2="0">
       </item>

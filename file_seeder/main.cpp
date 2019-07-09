@@ -21,6 +21,7 @@
 #include "task_status.h"
 #include "async_call.h"
 #include "sync_call.h"
+#include "json/json.h"
 
 using namespace std;
 
