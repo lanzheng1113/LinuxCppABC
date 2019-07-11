@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/config.o \
 	${OBJECTDIR}/logger.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/seed_executor.o \
 	${OBJECTDIR}/torrent_client.o
 
 # Test Directory
@@ -89,6 +90,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/seed_executor.o: seed_executor.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/seed_executor.o seed_executor.cpp
 
 ${OBJECTDIR}/torrent_client.o: torrent_client.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -150,6 +156,19 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_nomain.o main.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
+	fi
+
+${OBJECTDIR}/seed_executor_nomain.o: ${OBJECTDIR}/seed_executor.o seed_executor.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/seed_executor.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/seed_executor_nomain.o seed_executor.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/seed_executor.o ${OBJECTDIR}/seed_executor_nomain.o;\
 	fi
 
 ${OBJECTDIR}/torrent_client_nomain.o: ${OBJECTDIR}/torrent_client.o torrent_client.cpp 

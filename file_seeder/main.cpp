@@ -23,9 +23,13 @@
 #include "file_seeder_error_code.h"
 #include <string>
 #include "util/Path.h"
+#include "util/File.h"
+#include "seed_executor.h"
 
 using std::cout;
 using std::endl;
+
+bool quit_flag = false;
 
 int main(int argc, char** argv) 
 {
@@ -37,7 +41,8 @@ int main(int argc, char** argv)
    std::string cwd = qcutil::Path::getApplicationDirPath();
     cout << "Current work directory: " << cwd << endl;
     cout << "Defualt configure file: " << cwd + "file_seeder.json" << endl;
-    cout << "Default seeding file folder: " << cwd + "seed/" << endl;
+    std::string work_dir = cwd + "seed/";
+    cout << "Default seeding file folder: " << work_dir << endl;
     // load configure.
     if(!file_seeder::config::getInstance().load())
     {
@@ -57,8 +62,13 @@ int main(int argc, char** argv)
         cout << "with torrent file [" << i.torrent_file << "]" << endl;
     }
     
-    
-    
+    file_seeder::seed_executor se(work_dir, tasks);
+    se.start();
+    while(!quit_flag)
+    {
+        boost::this_thread::sleep(boost::posix_time::seconds(1));
+    }
+    se.stop();
     return 0;
 }
 

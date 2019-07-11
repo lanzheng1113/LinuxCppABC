@@ -8,6 +8,7 @@
       <itemPath>easy_timer.h</itemPath>
       <itemPath>file_seeder_error_code.h</itemPath>
       <itemPath>logger.h</itemPath>
+      <itemPath>seed_executor.h</itemPath>
       <itemPath>sync_call.h</itemPath>
       <itemPath>task_status.h</itemPath>
       <itemPath>torrent_client.h</itemPath>
@@ -17,6 +18,7 @@
       <itemPath>config.cpp</itemPath>
       <itemPath>logger.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>seed_executor.cpp</itemPath>
       <itemPath>torrent_client.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
@@ -98,6 +100,10 @@
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="seed_executor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="seed_executor.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="sync_call.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="task_status.h" ex="false" tool="3" flavor2="0">
@@ -163,6 +169,10 @@
       <item path="logger.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="seed_executor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="seed_executor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="sync_call.h" ex="false" tool="3" flavor2="0">
       </item>
