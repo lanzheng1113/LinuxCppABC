@@ -18,16 +18,47 @@
 
 #include <cstdlib>
 #include <iostream>
-#include "task_status.h"
-#include "async_call.h"
-#include "sync_call.h"
-#include "json/json.h"
+#include "torrent_client.h"
+#include "config.h"
+#include "file_seeder_error_code.h"
+#include <string>
+#include "util/Path.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
 
 int main(int argc, char** argv) 
 {
-    cout << "hello world." << endl;
+    //---------------------
+    // print basic information
+    //--------------------
+    cout << "File Seeder based on libtorrent." << endl;
+    cout << "For more information about libtorrent, please visit https://github.com/arvidn/libtorrent" << endl;
+   std::string cwd = qcutil::Path::getApplicationDirPath();
+    cout << "Current work directory: " << cwd << endl;
+    cout << "Defualt configure file: " << cwd + "file_seeder.json" << endl;
+    cout << "Default seeding file folder: " << cwd + "seed/" << endl;
+    // load configure.
+    if(!file_seeder::config::getInstance().load())
+    {
+        cout << "Failed to load config file" << endl;
+        return ERROR_FAILED_LOAD_CONFIG;
+    }
+    std::string ver = file_seeder::config::getInstance().get_version();
+    cout << "Current version: " << ver << endl;
+    std::string monitor_server = file_seeder::config::getInstance().get_manager_server();
+    cout << "Moniter server: " << monitor_server << endl;
+    std::vector<file_seeder::config::seed_tasks_in_conf> tasks = file_seeder::config::getInstance().get_tasks();
+    cout << "Tasks:"  << endl;
+    int task_index = 0;
+    for (auto i : tasks)
+    {
+        cout << ++task_index << " " << i.desc << endl;
+        cout << "with torrent file [" << i.torrent_file << "]" << endl;
+    }
+    
+    
+    
     return 0;
 }
 

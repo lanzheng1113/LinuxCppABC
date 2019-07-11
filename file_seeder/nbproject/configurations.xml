@@ -6,6 +6,7 @@
       <itemPath>config.h</itemPath>
       <itemPath>cptype.h</itemPath>
       <itemPath>easy_timer.h</itemPath>
+      <itemPath>file_seeder_error_code.h</itemPath>
       <itemPath>logger.h</itemPath>
       <itemPath>sync_call.h</itemPath>
       <itemPath>task_status.h</itemPath>
@@ -89,6 +90,8 @@
           <output>${TESTDIR}/TestFiles/f1</output>
         </linkerTool>
       </folder>
+      <item path="file_seeder_error_code.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="logger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="logger.h" ex="false" tool="3" flavor2="0">
@@ -153,6 +156,8 @@
           <output>${TESTDIR}/TestFiles/f1</output>
         </linkerTool>
       </folder>
+      <item path="file_seeder_error_code.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="logger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="logger.h" ex="false" tool="3" flavor2="0">
