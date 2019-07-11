@@ -25,6 +25,8 @@
 #include "util/Path.h"
 #include "util/File.h"
 #include "seed_executor.h"
+#include "logger.h"
+#include "boost/thread.hpp"
 
 using std::cout;
 using std::endl;
