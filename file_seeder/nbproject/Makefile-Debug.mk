@@ -66,7 +66,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../util/dist/Debug/GNU-Linux -lutil
+LDLIBSOPTIONS=-L../wztk/dist/Debug/GNU-Linux -lwztk
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -79,27 +79,27 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/file_seeder: ${OBJECTFILES}
 ${OBJECTDIR}/config.o: config.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../util/WZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/config.o config.cpp
+	$(COMPILE.cc) -g -I../wztk/WZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/config.o config.cpp
 
 ${OBJECTDIR}/logger.o: logger.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../util/WZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/logger.o logger.cpp
+	$(COMPILE.cc) -g -I../wztk/WZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/logger.o logger.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../util/WZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I../wztk/WZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 ${OBJECTDIR}/seed_executor.o: seed_executor.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../util/WZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/seed_executor.o seed_executor.cpp
+	$(COMPILE.cc) -g -I../wztk/WZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/seed_executor.o seed_executor.cpp
 
 ${OBJECTDIR}/torrent_client.o: torrent_client.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../util/WZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/torrent_client.o torrent_client.cpp
+	$(COMPILE.cc) -g -I../wztk/WZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/torrent_client.o torrent_client.cpp
 
 # Subprojects
 .build-subprojects:
@@ -116,7 +116,7 @@ ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/newsimpletest.o ${OBJECTFILES:%.o=%_no
 ${TESTDIR}/tests/newsimpletest.o: tests/newsimpletest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../util/WZTKUtil/include -I. -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/newsimpletest.o tests/newsimpletest.cpp
+	$(COMPILE.cc) -g -I../wztk/WZTKUtil/include -I. -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/newsimpletest.o tests/newsimpletest.cpp
 
 
 ${OBJECTDIR}/config_nomain.o: ${OBJECTDIR}/config.o config.cpp 
@@ -127,7 +127,7 @@ ${OBJECTDIR}/config_nomain.o: ${OBJECTDIR}/config.o config.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I../util/WZTKUtil/include -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/config_nomain.o config.cpp;\
+	    $(COMPILE.cc) -g -I../wztk/WZTKUtil/include -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/config_nomain.o config.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/config.o ${OBJECTDIR}/config_nomain.o;\
 	fi
@@ -140,7 +140,7 @@ ${OBJECTDIR}/logger_nomain.o: ${OBJECTDIR}/logger.o logger.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I../util/WZTKUtil/include -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/logger_nomain.o logger.cpp;\
+	    $(COMPILE.cc) -g -I../wztk/WZTKUtil/include -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/logger_nomain.o logger.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/logger.o ${OBJECTDIR}/logger_nomain.o;\
 	fi
@@ -153,7 +153,7 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I../util/WZTKUtil/include -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_nomain.o main.cpp;\
+	    $(COMPILE.cc) -g -I../wztk/WZTKUtil/include -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_nomain.o main.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
 	fi
@@ -166,7 +166,7 @@ ${OBJECTDIR}/seed_executor_nomain.o: ${OBJECTDIR}/seed_executor.o seed_executor.
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I../util/WZTKUtil/include -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/seed_executor_nomain.o seed_executor.cpp;\
+	    $(COMPILE.cc) -g -I../wztk/WZTKUtil/include -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/seed_executor_nomain.o seed_executor.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/seed_executor.o ${OBJECTDIR}/seed_executor_nomain.o;\
 	fi
@@ -179,7 +179,7 @@ ${OBJECTDIR}/torrent_client_nomain.o: ${OBJECTDIR}/torrent_client.o torrent_clie
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -I../util/WZTKUtil/include -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/torrent_client_nomain.o torrent_client.cpp;\
+	    $(COMPILE.cc) -g -I../wztk/WZTKUtil/include -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/torrent_client_nomain.o torrent_client.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/torrent_client.o ${OBJECTDIR}/torrent_client_nomain.o;\
 	fi

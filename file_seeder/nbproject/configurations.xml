@@ -53,16 +53,16 @@
         <ccTool>
           <standard>8</standard>
           <incDir>
-            <pElem>../util/WZTKUtil/include</pElem>
+            <pElem>../wztk/WZTKUtil/include</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
           <linkerAddLib>
-            <pElem>../util/dist/Debug/GNU-Linux</pElem>
+            <pElem>../wztk/dist/Debug/GNU-Linux</pElem>
           </linkerAddLib>
           <linkerCopySharedLibs>true</linkerCopySharedLibs>
           <linkerLibItems>
-            <linkerLibLibItem>util</linkerLibLibItem>
+            <linkerLibLibItem>wztk</linkerLibLibItem>
           </linkerLibItems>
           <commandLine>-ltorrent -lboost_system -lboost_thread -pthread</commandLine>
         </linkerTool>

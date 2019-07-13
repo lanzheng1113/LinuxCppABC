@@ -39,20 +39,20 @@ OBJECTFILES= \
 
 
 # C Compiler Flags
-CFLAGS=-m32
+CFLAGS=-m64
 
 # CC Compiler Flags
-CCFLAGS=-m32
-CXXFLAGS=-m32
+CCFLAGS=-m64
+CXXFLAGS=-m64
 
 # Fortran Compiler Flags
-FFLAGS=-m32
+FFLAGS=-m64
 
 # Assembler Flags
-ASFLAGS=--32
+ASFLAGS=--64
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../util/dist/Debug/GNU-Linux -lutil
+LDLIBSOPTIONS=-L../wztk/dist/Debug/GNU-Linux -lwztk
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -65,7 +65,7 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/testutil: ${OBJECTFILES}
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../util/WZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I../wztk/WZTKUtil/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
